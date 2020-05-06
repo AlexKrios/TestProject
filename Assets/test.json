@@ -1,0 +1,23 @@
+{
+  "paryName": "Test",
+  "group": {
+    "unit0": {
+      "type": "Recruit"
+    },
+    "unit1": {
+      "type": "Hero"
+    },
+    "unit2": {
+      "type": "Recruit"
+    },
+    "unit3": {
+      "type": "Empty"
+    },
+    "unit4": {
+      "type": "Gunner"
+    },
+    "unit5": {
+      "type": "Empty"
+    }
+  }
+}
