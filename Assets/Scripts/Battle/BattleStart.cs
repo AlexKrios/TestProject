@@ -3,7 +3,6 @@
 public class BattleStart : MonoBehaviour
 {
     private Group group = new Group();
-    private UnitUI unitUI = new UnitUI();
 
     public UnitStatus[] CreateArmy(string team) 
     {
@@ -61,8 +60,6 @@ public class BattleStart : MonoBehaviour
         unit.defence = unitClass.defence;
         unit.initiative = unitClass.initiative;
         unit.type = unitClass.type;
-
-        unitUI.HpIndicator(unit);
 
         return unit;
     }    

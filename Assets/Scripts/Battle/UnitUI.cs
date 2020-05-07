@@ -1,8 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UnitUI
 {
+    private List<UnitStatus> battleQueue;
+
+    public UnitUI(GameObject cam)
+    {
+        battleQueue = cam.GetComponent<BattleManager>().battleQueue;
+    }
+
     public void HpIndicator(UnitStatus unitStatus) 
     {
         //GameObject canvasGo = new GameObject("Canvas");
@@ -21,13 +29,22 @@ public class UnitUI
 
         unit.hpBar.text = unitStatus.currentHp.ToString();
 
-        if (unitStatus.team == "Ally") {
-            unit.hpBar.transform.rotation = Quaternion.Euler(45, -90, 0);
+        if (unitStatus.team == "Ally") 
+        {
+            unit.hpBar.transform.rotation = Quaternion.Euler(45, 0, 0);
         }
 
         if (unitStatus.team == "Enemy")
         {
-            unit.hpBar.transform.rotation = Quaternion.Euler(45, 90, 0);
+            unit.hpBar.transform.rotation = Quaternion.Euler(45, 0, 0);
+        }
+    }
+
+    public void HpInit()
+    {
+        foreach (UnitStatus unitStatus in battleQueue)
+        {
+            HpIndicator(unitStatus);
         }
     }
 }

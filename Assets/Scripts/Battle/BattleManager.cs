@@ -18,6 +18,8 @@ public class BattleManager : MonoBehaviour
     private BattleQueue bq;
     private BattleMark bm;
 
+    private UnitUI ui;
+
     private Ally ally;
     private Enemy enemy;
 
@@ -34,6 +36,8 @@ public class BattleManager : MonoBehaviour
 
         ally = new Ally(battleQueue);
         enemy = new Enemy();
+
+        ui = new UnitUI(cam);
     }
 
     void Update()
@@ -52,6 +56,7 @@ public class BattleManager : MonoBehaviour
 
         currentUnit = bq.CurrentUnit();
         bm.MarkedTarget(currentUnit);
+        ui.HpInit();
 
         phase = "Turn";
     }
