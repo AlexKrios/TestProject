@@ -61,7 +61,7 @@ public class BattleManager : MonoBehaviour
         phase = "Turn";
     }
 
-    public void Turn()
+    private void Turn()
     {
         if (phase != "Turn")
         {
@@ -94,5 +94,10 @@ public class BattleManager : MonoBehaviour
         phase = "Start";
 
         bq.BattleEnd();
+    }
+
+    public void Skip()
+    {
+        phase = "End";
     }
 }
