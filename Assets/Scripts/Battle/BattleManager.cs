@@ -9,32 +9,37 @@ public class BattleManager : MonoBehaviour
     private UnitStatus[] enemyArmy;
 
     public List<UnitStatus> battleQueue = new List<UnitStatus>();
-    private UnitStatus currentUnit;
+    public UnitStatus currentUnit;
 
     public static string phase = "Start";
 
     /* Submodule classes */    
     private BattleStart bs;
     private BattleQueue bq;
-    private Battle battle;
+    private BattleMark bm;
+
+    private Ally ally;
+    private Enemy enemy;
 
     void Start()
     {        
         bs = cam.AddComponent<BattleStart>();
         bq = cam.AddComponent<BattleQueue>();
-        battle = cam.AddComponent<Battle>();
+        bm = cam.AddComponent<BattleMark>();
 
         allyArmy = bs.CreateArmy("Ally");
         enemyArmy = bs.CreateArmy("Enemy");
 
         battleQueue = bq.CreateQueue(allyArmy, enemyArmy);
+
+        ally = new Ally(battleQueue);
+        enemy = new Enemy();
     }
 
     void Update()
-    {
+    {        
         TurnStart();
-        battle.AllyTurn(currentUnit);
-        battle.EnemyTurn(currentUnit);
+        Turn();
         TurnEnd();
     }
 
@@ -46,9 +51,31 @@ public class BattleManager : MonoBehaviour
         }
 
         currentUnit = bq.CurrentUnit();
-        battle.MarkedTarget(currentUnit);
+        bm.MarkedTarget(currentUnit);
 
         phase = "Turn";
+    }
+
+    public void Turn()
+    {
+        if (phase != "Turn")
+        {
+            return;
+        }
+
+        bool isAlly = currentUnit.team == "Ally";
+        bool isEnemy = currentUnit.team == "Enemy";
+
+        if (isAlly)
+        {
+            ally.Turn(currentUnit);
+            return;
+        }
+        else if (isEnemy)
+        {
+            enemy.Turn();
+            return;
+        }
     }
 
     private void TurnEnd() {
@@ -57,7 +84,7 @@ public class BattleManager : MonoBehaviour
             return;
         }        
 
-        battle.DestroyTurnMark();
+        bm.DestroyTurnMark();
 
         phase = "Start";
 

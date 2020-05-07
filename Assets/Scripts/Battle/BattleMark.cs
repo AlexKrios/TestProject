@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BattleMark
+public class BattleMark : MonoBehaviour
 {
     public void Create(UnitStatus currentUnit, string path = "test2") 
     {
@@ -23,5 +23,28 @@ public class BattleMark
 
         SpriteRenderer spriteRenderer = turnMark.AddComponent<SpriteRenderer>();
         spriteRenderer.sprite = Resources.Load<Sprite>(path);
+    }
+
+    public void MarkedTarget(UnitStatus currentUnit)
+    {
+        if (currentUnit.team == "Enemy")
+        {
+            return;
+        }
+
+        Create(currentUnit);
+        foreach (int index in currentUnit.target)
+        {
+            currentUnit.gameObject.GetComponent<Personage>().MarkedTarget(index);
+        }
+    }
+
+    public void DestroyTurnMark()
+    {
+        GameObject[] marks = GameObject.FindGameObjectsWithTag("TurnMark");
+        foreach (GameObject mark in marks)
+        {
+            Destroy(mark);
+        }
     }
 }

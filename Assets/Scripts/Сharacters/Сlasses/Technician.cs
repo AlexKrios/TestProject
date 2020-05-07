@@ -47,6 +47,6 @@ public class Technician : Personage
     public override void MarkedTarget(int index)
     {
         UnitStatus targetUnit = battleQueue.First(x => x.place == index && x.team == "Ally");
-        battleMark.Create(targetUnit, "test3");
+        cam.GetComponent<BattleMark>().Create(targetUnit, "test3");
     }
 }

@@ -27,21 +27,13 @@ public abstract class Personage : MonoBehaviour
 
     public string type;
 
-    private GameObject cam;
+    protected GameObject cam;
     protected List<UnitStatus> battleQueue;
-
-    /* Submodule classes */
-    protected BattleMark battleMark = new BattleMark();
 
     void Start() 
     {
         cam = GameObject.Find("MainCamera");
         battleQueue = cam.GetComponent<BattleQueue>().battleQueue;
-    }
-
-    public virtual bool CheckTarget(UnitStatus currentUnit, UnitStatus targetUnit)
-    {
-        return false;
     }
 
     public virtual List<int> UnitTarget(string team = "Ally")
@@ -63,19 +55,25 @@ public abstract class Personage : MonoBehaviour
         return target;
     }
 
+    public virtual bool CheckTarget(UnitStatus currentUnit, UnitStatus targetUnit)
+    {
+        return false;
+    }    
+
     public virtual void MarkedTarget(int index)
     {
         UnitStatus targetUnit = battleQueue.First(x => x.place == index && x.team == "Enemy");
-        battleMark.Create(targetUnit, "test1");
-    }
-
-    public void Turn() 
-    {
-        
+        cam.GetComponent<BattleMark>().Create(targetUnit, "test1");
     }
 
     public virtual void Attack(UnitStatus targetUnit) {        
         targetUnit.currentHp -= attack;
+
+        if (targetUnit.currentHp <= 0)
+        {
+            targetUnit.status = "Dead";
+            Destroy(targetUnit.gameObject);
+        }
     }
 
     public void ShowStat()
