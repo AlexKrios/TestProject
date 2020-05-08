@@ -34,7 +34,7 @@ public class BattleStart : MonoBehaviour
 
     UnitStatus CreateUnit(string member, string team, int place) 
     {
-        string path = $"Сharacters/{member}";
+        string path = $"Сharacters/{member}/{member}";
 
         if (member == "Empty") {
             return null;
