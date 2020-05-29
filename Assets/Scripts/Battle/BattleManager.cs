@@ -8,17 +8,17 @@ public class BattleManager : MonoBehaviour
     private UnitStatus[] allyArmy;
     private UnitStatus[] enemyArmy;
 
-    public List<UnitStatus> battleQueue = new List<UnitStatus>();
+    public List<UnitStatus> battleQueue;
     public UnitStatus currentUnit;
 
     public static string phase = "Start";
 
-    /* Submodule classes */    
+    /* Submodule classes */
     private BattleStart bs;
     private BattleQueue bq;
     private BattleMark bm;
-
-    private UnitUI ui;
+    private BattleCamera bc;
+    private BattleUI bui;
 
     private Ally ally;
     private Enemy enemy;
@@ -28,16 +28,20 @@ public class BattleManager : MonoBehaviour
         bs = cam.AddComponent<BattleStart>();
         bq = cam.AddComponent<BattleQueue>();
         bm = cam.AddComponent<BattleMark>();
+        bc = cam.AddComponent<BattleCamera>();
+        bui = cam.AddComponent<BattleUI>();
 
         allyArmy = bs.CreateArmy("Ally");
         enemyArmy = bs.CreateArmy("Enemy");
 
         battleQueue = bq.CreateQueue(allyArmy, enemyArmy);
 
-        ally = new Ally(battleQueue);
-        enemy = new Enemy();
+        ally = cam.AddComponent<Ally>();
+        enemy = cam.AddComponent<Enemy>();
+        ally.Init(battleQueue);
+        enemy.Init(battleQueue);
 
-        ui = new UnitUI(cam);
+        bc.StartCamera();
     }
 
     void Update()
@@ -56,7 +60,7 @@ public class BattleManager : MonoBehaviour
 
         currentUnit = bq.CurrentUnit();
         bm.MarkedTarget(currentUnit);
-        ui.HpInit();
+        bui.HpInit();
 
         phase = "Turn";
     }
@@ -74,12 +78,10 @@ public class BattleManager : MonoBehaviour
         if (isAlly)
         {
             ally.Turn(currentUnit);
-            return;
         }
         else if (isEnemy)
         {
-            enemy.Turn();
-            return;
+            enemy.Turn(currentUnit);
         }
     }
 
@@ -98,6 +100,6 @@ public class BattleManager : MonoBehaviour
 
     public void Skip()
     {
-        phase = "End";
+        ally.Skip(currentUnit);
     }
 }

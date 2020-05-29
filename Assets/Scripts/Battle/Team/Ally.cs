@@ -1,62 +1,79 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Ally
-{
-    Ray ray;
-    RaycastHit hit;
-
-    private readonly List<UnitStatus> battleQueue;
-    private UnitStatus currentUnit;
+public class Ally : MonoBehaviour
+{    
+    private List<UnitStatus> battleQueue;
     private UnitStatus targetUnit;
+    private bool isTurn = false;
 
-    public Ally(List<UnitStatus> battleQueue)
+    public void Init(List<UnitStatus> _battleQueue)
     {
-        this.battleQueue = battleQueue;
+        battleQueue = _battleQueue;
     }
 
     public void Turn(UnitStatus currentUnit) 
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (isTurn)
         {
-            ray = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
+            return;
+        }        
 
-            bool condition = CheckTarget(currentUnit);
-            if (!condition)
-            {
-                return;
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {           
+            Ray ray = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
+            bool isUnit = false;
+            bool condition = false;
+
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+            {                
+                isUnit = hit.transform.CompareTag("Ally") || hit.transform.CompareTag("Enemy");
+
+                targetUnit = battleQueue.First(x => x.gameObject.name == hit.transform.gameObject.name);
+                condition = currentUnit.gameObject.GetComponent<Personage>().CheckTarget(currentUnit, targetUnit);                
             }
 
-            currentUnit.gameObject.GetComponent<Personage>().Attack(targetUnit);
+            if (!isUnit || !condition)
+            {
+                return;
+            }            
 
-            BattleManager.phase = "End";
-            return;
+            StartCoroutine(Attack(currentUnit, targetUnit));
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            BattleManager.phase = "End";
+            StartCoroutine(Skip(currentUnit));
         }
     }
 
-    private bool CheckTarget(UnitStatus currentUnit)
+    public IEnumerator Attack(UnitStatus currentUnit, UnitStatus targetUnit)
     {
-        bool condition = false;
+        isTurn = true;
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        currentUnit.gameObject.GetComponent<Personage>().Attack(targetUnit);
+        yield return new WaitForSeconds(.25f);
+
+        if (targetUnit.currentHp <= 0)
         {
-            bool isUnit = hit.transform.tag == "Ally" || hit.transform.tag == "Enemy";
-
-            if (!isUnit)
-            {
-                return false;
-            }
-
-            targetUnit = battleQueue.First(x => x.gameObject.name == hit.transform.gameObject.name);
-            condition = currentUnit.gameObject.GetComponent<Personage>().CheckTarget(currentUnit, targetUnit);
+            targetUnit.status = "Dead";
+            Destroy(targetUnit.gameObject);
         }
 
-        return condition;
+        isTurn = false;
+        BattleManager.phase = "End";
+    }
+
+    public IEnumerator Skip(UnitStatus currentUnit)
+    {
+        isTurn = true;
+
+        currentUnit.gameObject.GetComponent<Personage>().Skip();
+        yield return new WaitForSeconds(.25f);
+
+        isTurn = false;
+        BattleManager.phase = "End";
     }
 }

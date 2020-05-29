@@ -2,7 +2,8 @@
 
 public class BattleStart : MonoBehaviour
 {
-    private Group group = new Group();
+    private readonly Group group = new Group();
+    private int allCount = 0;
 
     public UnitStatus[] CreateArmy(string team) 
     {
@@ -16,7 +17,7 @@ public class BattleStart : MonoBehaviour
 
         foreach (string member in group.member)
         {
-            UnitStatus unit = CreateUnit(member, team, count);
+            UnitStatus unit = CreateUnit(member, team);
 
             if (unit != null) {
                 unit.gameObject.name = $"{team}{count + 1}";
@@ -26,13 +27,14 @@ public class BattleStart : MonoBehaviour
             }
 
             army[count] = unit;
+            allCount++;
             count++;
         }
 
         return army;
     }
 
-    UnitStatus CreateUnit(string member, string team, int place) 
+    UnitStatus CreateUnit(string member, string team) 
     {
         string path = $"Сharacters/{member}/{member}";
 
@@ -51,12 +53,11 @@ public class BattleStart : MonoBehaviour
         unit.status = "Live";
         unit.turn = true;
         unit.team = team;
-        unit.place = place;
+        unit.place = allCount;
         unit.level = unitClass.level;
         unit.hp = unitClass.hp;
         unit.currentHp = unitClass.hp;
         unit.attack = unitClass.attack;
-        unit.attackType = unitClass.attackType;
         unit.defence = unitClass.defence;
         unit.initiative = unitClass.initiative;
         unit.type = unitClass.type;

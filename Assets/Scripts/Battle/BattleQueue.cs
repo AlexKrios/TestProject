@@ -44,7 +44,7 @@ public class BattleQueue : MonoBehaviour
             }
 
             unit.turn = false;
-            unit.target = unit.gameObject.GetComponent<Personage>().UnitTarget();
+            unit.target = unit.gameObject.GetComponent<Personage>().UnitTarget(unit.team);
 
             return unit;
         }
@@ -80,7 +80,7 @@ public class BattleQueue : MonoBehaviour
         }
 
         battleQueue[0].turn = false;
-        battleQueue[0].target = battleQueue[0].gameObject.GetComponent<Personage>().UnitTarget();
+        battleQueue[0].target = battleQueue[0].gameObject.GetComponent<Personage>().UnitTarget(battleQueue[0].team);
     }
 
     public void BattleEnd()

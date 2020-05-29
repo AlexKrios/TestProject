@@ -3,18 +3,6 @@ using System.Linq;
 
 public class Technician : Personage
 {
-    public override bool CheckTarget(UnitStatus currentUnit, UnitStatus targetUnit)
-    {
-        bool isTarget = targetUnit.team == "Ally" && currentUnit.target.Contains(targetUnit.place);
-
-        if (isTarget)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
     public override void Attack(UnitStatus targetUnit)
     {
         targetUnit.currentHp += attack;
@@ -30,14 +18,14 @@ public class Technician : Personage
         List<int> target = new List<int>();
 
         foreach (UnitStatus unit in battleQueue)
-        {
-            bool isNonTarget = unit.status == "Dead" || unit.team == "Enemy";
+        {            
+            bool isNonTarget = unit.status == "Dead" || unit.team != team;
 
             if (isNonTarget || unit.currentHp >= unit.hp)
             {
                 continue;
             }
-            
+
             target.Add(unit.place);
         }
 
@@ -46,7 +34,7 @@ public class Technician : Personage
 
     public override void MarkedTarget(int index)
     {
-        UnitStatus targetUnit = battleQueue.First(x => x.place == index && x.team == "Ally");
+        UnitStatus targetUnit = battleQueue.First(x => x.place == index);
         cam.GetComponent<BattleMark>().Create(targetUnit, "test3");
     }
 }

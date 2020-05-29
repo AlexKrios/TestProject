@@ -27,11 +27,6 @@ public class BattleMark : MonoBehaviour
 
     public void MarkedTarget(UnitStatus currentUnit)
     {
-        if (currentUnit.team == "Enemy")
-        {
-            return;
-        }
-
         Create(currentUnit);
         foreach (int index in currentUnit.target)
         {

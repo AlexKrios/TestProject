@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.UI;
 
 public abstract class Personage : MonoBehaviour
 {    
@@ -15,11 +14,8 @@ public abstract class Personage : MonoBehaviour
     public int currentExpirence;
 
     public int hp;
-    public Text hpBar;
 
     public int attack;
-
-    public string attackType;
 
     public int defence;
 
@@ -36,19 +32,19 @@ public abstract class Personage : MonoBehaviour
         battleQueue = cam.GetComponent<BattleQueue>().battleQueue;
     }
 
-    public virtual List<int> UnitTarget(string team = "Ally")
+    public virtual List<int> UnitTarget(string team)
     {
         List<int> target = new List<int>();
 
         foreach (UnitStatus unit in battleQueue)
         {
-            bool isAlly = unit.status == "Dead" || unit.team == team;
+            bool isNonTarget = unit.status == "Dead" || unit.team == team;
 
-            if (isAlly)
+            if (isNonTarget)
             {
                 continue;
             }
-
+            
             target.Add(unit.place);
         }
 
@@ -57,24 +53,28 @@ public abstract class Personage : MonoBehaviour
 
     public virtual bool CheckTarget(UnitStatus currentUnit, UnitStatus targetUnit)
     {
+        bool isTarget = currentUnit.target.Contains(targetUnit.place);
+
+        if (isTarget)
+        {
+            return true;
+        }
+
         return false;
     }    
 
     public virtual void MarkedTarget(int index)
     {
-        UnitStatus targetUnit = battleQueue.First(x => x.place == index && x.team == "Enemy");
+        UnitStatus targetUnit = battleQueue.First(x => x.place == index);
         cam.GetComponent<BattleMark>().Create(targetUnit, "test1");
     }
 
-    public virtual void Attack(UnitStatus targetUnit) {        
+    public virtual void Attack(UnitStatus targetUnit) 
+    {        
         targetUnit.currentHp -= attack;
-
-        if (targetUnit.currentHp <= 0)
-        {
-            targetUnit.status = "Dead";
-            Destroy(targetUnit.gameObject);
-        }
     }
+
+    public virtual void Skip() { }
 
     public void ShowStat()
     {
