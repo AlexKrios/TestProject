@@ -7,7 +7,7 @@ public class BattleStart : MonoBehaviour
 
     public UnitStatus[] CreateArmy(string team) 
     {
-        UnitStatus[] army = new UnitStatus[6];
+        UnitStatus[] army = new UnitStatus[5];
 
         int count = 0;
 
@@ -67,24 +67,22 @@ public class BattleStart : MonoBehaviour
 
     private Vector3[] InitPositionArray(string team)
     {
-        Vector3[] unitPosition = new Vector3[6];
+        Vector3[] unitPosition = new Vector3[5];
 
         if (team == "Ally") {
             unitPosition[0] = new Vector3(-3, 1, 3);
             unitPosition[1] = new Vector3(-3, 1, 0);
             unitPosition[2] = new Vector3(-3, 1, -3);
-            unitPosition[3] = new Vector3(-6, 1, 3);
-            unitPosition[4] = new Vector3(-6, 1, 0);
-            unitPosition[5] = new Vector3(-6, 1, -3);
+            unitPosition[3] = new Vector3(-6, 1, 1.5f);
+            unitPosition[4] = new Vector3(-6, 1, -1.5f);
         }
 
         if (team == "Enemy") {
             unitPosition[0] = new Vector3(3, 1, 3);
             unitPosition[1] = new Vector3(3, 1, 0);
             unitPosition[2] = new Vector3(3, 1, -3);
-            unitPosition[3] = new Vector3(6, 1, 3);
-            unitPosition[4] = new Vector3(6, 1, 0);
-            unitPosition[5] = new Vector3(6, 1, -3);
+            unitPosition[3] = new Vector3(6, 1, 1.5f);
+            unitPosition[4] = new Vector3(6, 1, -1.5f);
         }
         
         return unitPosition;

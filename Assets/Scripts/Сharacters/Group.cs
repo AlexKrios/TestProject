@@ -10,6 +10,5 @@ public class Group
         member.Add("Recruit");
         member.Add("Technician");
         member.Add("Gunner");
-        member.Add("Technician");
     }
 }

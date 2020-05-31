@@ -35,10 +35,14 @@ public class Enemy : MonoBehaviour
     {
         var randomIndex = Random.Range(0, currentUnit.target.Count);
         var place = currentUnit.target[randomIndex];
-        var targetUnit = battleQueue.First(x => x.place == place);
+        BattleManager.targetUnit = battleQueue.First(x => x.place == place);
 
-        currentUnit.gameObject.GetComponent<Personage>().Attack(targetUnit);
-        yield return new WaitForSeconds(1);
+        StartCoroutine(currentUnit.gameObject.GetComponent<Personage>().UnitRotation());
+        yield return new WaitForSeconds(.5f);
+        currentUnit.gameObject.GetComponent<Personage>().Attack(BattleManager.targetUnit);
+
+        StartCoroutine(currentUnit.gameObject.GetComponent<Personage>().UnitPosition(1));
+        yield return new WaitForSeconds(.5f);        
 
         isTurn = false;
         BattleManager.phase = "End";

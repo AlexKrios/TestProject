@@ -8,8 +8,9 @@ public class BattleManager : MonoBehaviour
     private UnitStatus[] allyArmy;
     private UnitStatus[] enemyArmy;
 
-    public List<UnitStatus> battleQueue;
-    public UnitStatus currentUnit;
+    public List<UnitStatus> battleQueue = null;
+    public static UnitStatus currentUnit = null;
+    public static UnitStatus targetUnit = null;
 
     public static string phase = "Start";
 
@@ -41,7 +42,7 @@ public class BattleManager : MonoBehaviour
         ally.Init(battleQueue);
         enemy.Init(battleQueue);
 
-        bc.StartCamera();
+        bc.StartCamera();        
     }
 
     void Update()
@@ -61,6 +62,7 @@ public class BattleManager : MonoBehaviour
         currentUnit = bq.CurrentUnit();
         bm.MarkedTarget(currentUnit);
         bui.HpInit();
+        StartCoroutine(currentUnit.gameObject.GetComponent<Personage>().UnitPosition(1.5f));
 
         phase = "Turn";
     }
@@ -77,7 +79,7 @@ public class BattleManager : MonoBehaviour
 
         if (isAlly)
         {
-            ally.Turn(currentUnit);
+            ally.Turn();
         }
         else if (isEnemy)
         {
@@ -91,15 +93,15 @@ public class BattleManager : MonoBehaviour
             return;
         }        
 
-        bm.DestroyTurnMark();
+        bm.DestroyTurnMark();        
 
-        phase = "Start";
+        phase = "Start";        
 
         bq.BattleEnd();
     }
 
     public void Skip()
     {
-        ally.Skip(currentUnit);
+        ally.Skip();
     }
 }

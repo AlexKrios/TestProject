@@ -19548,7 +19548,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2959467708922500008, guid: 79844c38bd2870b40affcd78133de06d, type: 3}
---- !u!114 &2788586102521679174
+--- !u!114 &3696554116593640060
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19557,7 +19557,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6176732016830840641}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37c4fbcab1a4a54468efbeb861aef7c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 63ad2ae803620d84d82f85d4a3afb8a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
@@ -19567,7 +19567,7 @@ MonoBehaviour:
   attack: 10
   defence: 0
   initiative: 15
-  type: Recruit
+  type: Gunner
 --- !u!1 &7663580199031902653
 GameObject:
   m_ObjectHideFlags: 0

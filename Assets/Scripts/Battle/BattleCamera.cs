@@ -8,16 +8,17 @@ public class BattleCamera : MonoBehaviour
         Transform endPoint = GameObject.Find("EndCameraPoint").GetComponent<Transform>();
         Transform targetObject = GameObject.Find("PostProcessing").GetComponent<Transform>();
 
-        StartCoroutine(MoveToPosition(transform, endPoint, targetObject, 120));
+        var timer = MoveToPosition(transform, endPoint, targetObject, 60f);
+        StartCoroutine(timer);
     }
 
     private IEnumerator MoveToPosition(Transform currentObject, Transform endPoint, Transform targetObject, float time)
     {
-        var t = 0f;
+        float t = 0;
         while (t < 1)
         {
             t += Time.deltaTime / time;
-            transform.position = Vector3.Lerp(currentObject.position, endPoint.position, t);
+            transform.position = Vector3.Slerp(currentObject.position, endPoint.position, t);
             transform.LookAt(targetObject);
             yield return null;
         }
