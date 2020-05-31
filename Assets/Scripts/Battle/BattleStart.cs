@@ -34,7 +34,7 @@ public class BattleStart : MonoBehaviour
         return army;
     }
 
-    UnitStatus CreateUnit(string member, string team) 
+    private UnitStatus CreateUnit(string member, string team) 
     {
         string path = $"Сharacters/{member}/{member}";
 
@@ -54,7 +54,7 @@ public class BattleStart : MonoBehaviour
         unit.turn = true;
         unit.team = team;
         unit.place = allCount;
-        unit.level = unitClass.level;
+        //unit.level = unitClass.level;
         unit.hp = unitClass.hp;
         unit.currentHp = unitClass.hp;
         unit.attack = unitClass.attack;

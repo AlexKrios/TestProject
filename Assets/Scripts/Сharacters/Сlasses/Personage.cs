@@ -4,33 +4,40 @@ using System.Linq;
 using System.Collections;
 
 public abstract class Personage : MonoBehaviour
-{    
-    [HideInInspector]
-    public int level;
+{        
+    public UnitData data;
 
     [HideInInspector]
-    public int expirence;
-
-    [HideInInspector]
-    public int currentExpirence;
-
     public int hp;
-
+    [HideInInspector]
     public int attack;
-
+    [HideInInspector]
     public int defence;
-
+    [HideInInspector]
     public int initiative;
-
+    [HideInInspector]
     public string type;
+
+    //[HideInInspector]
+    //public int level;
+    //[HideInInspector]
+    //public int expirence;
+    //[HideInInspector]
+    //public int currentExpirence;
 
     protected GameObject cam;
     protected List<UnitStatus> battleQueue;
 
     void Start() 
     {
+        hp = data.hp;
+        attack = data.attack;
+        defence = data.defence;
+        initiative = data.initiative;
+        type = data.type;
+
         cam = GameObject.Find("MainCamera");
-        battleQueue = cam.GetComponent<BattleQueue>().battleQueue;
+        battleQueue = cam.GetComponent<BattleQueue>().battleQueue;        
     }
 
     public virtual List<int> UnitTarget(string team)
@@ -77,7 +84,6 @@ public abstract class Personage : MonoBehaviour
             transform.position = Vector3.Slerp(transform.position, new Vector3(transform.position.x, transform.position.y, transform.position.z), t);
             yield return null;
         }
-        //yield break;
     }
 
     public IEnumerator UnitRotation()
@@ -89,7 +95,6 @@ public abstract class Personage : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(BattleManager.targetUnit.gameObject.transform.position - transform.position), 5 * Time.deltaTime);
             yield return null;
         }
-        //yield break;
     }
 
     public virtual void Skip() { }

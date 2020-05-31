@@ -9624,43 +9624,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!64 &4500615444376153406
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6176732016830840641}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2959467708922500008, guid: 192122761b830594784fe9b4cd36f74e, type: 3}
---- !u!114 &6388540106770080339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6176732016830840641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37c4fbcab1a4a54468efbeb861aef7c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: 0
-  expirence: 0
-  currentExpirence: 0
-  hp: 25
-  hpBar: {fileID: 0}
-  hpImage: {fileID: 0}
-  attack: 10
-  attackType: Melle
-  defence: 0
-  initiative: 10
-  type: Recruit
 --- !u!1 &2994064876069740215
 GameObject:
   m_ObjectHideFlags: 0
@@ -19384,6 +19347,38 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!64 &4500615444376153406
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6176732016830840641}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2959467708922500008, guid: 192122761b830594784fe9b4cd36f74e, type: 3}
+--- !u!114 &6388540106770080339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6176732016830840641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37c4fbcab1a4a54468efbeb861aef7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 4f33391c35bcb88468b51a6246885215, type: 2}
+  hp: 25
+  attack: 10
+  defence: 0
+  initiative: 10
+  type: Recruit
 --- !u!1 &6406671402661710561
 GameObject:
   m_ObjectHideFlags: 0
