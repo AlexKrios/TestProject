@@ -6,6 +6,8 @@ public class BattleQueue : MonoBehaviour
 {
     public List<UnitStatus> battleQueue = new List<UnitStatus>();
 
+    void Start() { }
+
     #region Create queue section
     public List<UnitStatus> CreateQueue(UnitStatus[] allyArmy, UnitStatus[] enemyArmy) 
     {
@@ -107,7 +109,7 @@ public class BattleQueue : MonoBehaviour
 
         if (allyCount == 0 || enemyCount == 0) 
         {
-            BattleManager.phase = "BattleEnd";
+            BattleManager.battlePhase = BattleState.BattleEnd;
 
             Debug.Log("End battle");
         }

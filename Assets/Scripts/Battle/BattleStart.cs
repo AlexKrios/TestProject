@@ -5,6 +5,8 @@ public class BattleStart : MonoBehaviour
     private readonly Group group = new Group();
     private int allCount = 0;
 
+    void Start() { }
+
     public UnitStatus[] CreateArmy(string team) 
     {
         UnitStatus[] army = new UnitStatus[5];
@@ -21,6 +23,7 @@ public class BattleStart : MonoBehaviour
 
             if (unit != null) {
                 unit.gameObject.name = $"{team}{count + 1}";
+                unit.model.gameObject.name = $"{team}{count + 1}Model";
                 unit.gameObject.transform.parent = parent;
                 unit.gameObject.transform.position = unitPosition[count];
                 unit.gameObject.transform.rotation = unitRotation;
@@ -36,7 +39,7 @@ public class BattleStart : MonoBehaviour
 
     private UnitStatus CreateUnit(string member, string team) 
     {
-        string path = $"Сharacters/{member}/{member}";
+        string path = $"Battle/Сharacters/{member}/{member}";
 
         if (member == "Empty") {
             return null;
@@ -45,16 +48,18 @@ public class BattleStart : MonoBehaviour
         UnitStatus unit = new UnitStatus();
 
         GameObject unitGameObject = Instantiate(Resources.Load(path, typeof(GameObject)) as GameObject);
+        GameObject unitModel = unitGameObject.gameObject.transform.Find("Model").gameObject;
         Personage unitClass = unitGameObject.GetComponent<Personage>();
 
         /* Unit stats export */
         unit.gameObject = unitGameObject;
-        unit.gameObject.tag = team;
+        unit.model = unitModel;
+        unit.model.tag = team;
         unit.status = "Live";
         unit.turn = true;
         unit.team = team;
         unit.place = allCount;
-        //unit.level = unitClass.level;
+        //unit.level = unitClass.level;        
         unit.hp = unitClass.hp;
         unit.currentHp = unitClass.hp;
         unit.attack = unitClass.attack;

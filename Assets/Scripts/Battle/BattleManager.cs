@@ -1,107 +1,102 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public enum BattleState
+{
+    CameraStart = 0,
+    TurnStart = 1,
+    AnimationStart = 2,
+    Turn = 3,
+    AnimationTurn = 4,
+    TurnEnd = 5,
+    AnimationEnd = 6,
+    BattleEnd = 7
+}
+
 public class BattleManager : MonoBehaviour
 {
     public GameObject cam;
 
+    public static float globalSpeed = 1;
+    public static BattleState battlePhase = BattleState.TurnStart;
+
+    /* Army arrays */
     private UnitStatus[] allyArmy;
     private UnitStatus[] enemyArmy;
 
     public List<UnitStatus> battleQueue = null;
     public static UnitStatus currentUnit = null;
-    public static UnitStatus targetUnit = null;
-
-    public static string phase = "Start";
+    public static UnitStatus targetUnit = null;    
 
     /* Submodule classes */
-    private BattleStart bs;
-    private BattleQueue bq;
-    private BattleMark bm;
-    private BattleCamera bc;
-    private BattleUI bui;
+    public BattleCamera bc;
+    public BattleStart bs;
+    public BattleQueue bq;
+    public BattleMark bm;    
+    public BattleUI bui;
+    public BattleAnimation ba;
 
-    private Ally ally;
-    private Enemy enemy;
+    public UnitBehaviour ub;
 
     void Start()
     {        
-        bs = cam.AddComponent<BattleStart>();
-        bq = cam.AddComponent<BattleQueue>();
-        bm = cam.AddComponent<BattleMark>();
-        bc = cam.AddComponent<BattleCamera>();
-        bui = cam.AddComponent<BattleUI>();
-
         allyArmy = bs.CreateArmy("Ally");
         enemyArmy = bs.CreateArmy("Enemy");
 
         battleQueue = bq.CreateQueue(allyArmy, enemyArmy);
 
-        ally = cam.AddComponent<Ally>();
-        enemy = cam.AddComponent<Enemy>();
-        ally.Init(battleQueue);
-        enemy.Init(battleQueue);
-
         bc.StartCamera();        
     }
 
     void Update()
-    {        
-        TurnStart();
-        Turn();
-        TurnEnd();
+    {
+        switch (battlePhase)
+        {
+            case BattleState.CameraStart:
+                ba.CameraStart();
+                return;
+            case BattleState.TurnStart:
+                TurnStart();                
+                return;
+            case BattleState.AnimationStart:
+                ba.TurnStart();
+                return;
+            case BattleState.Turn:
+                targetUnit = ub.Turn(currentUnit);
+                return;
+            case BattleState.AnimationTurn:
+                ba.Turn();
+                return;
+            case BattleState.TurnEnd:
+                TurnEnd();
+                return;
+            case BattleState.AnimationEnd:
+                ba.TurnEnd();
+                return;
+            case BattleState.BattleEnd:
+                bq.BattleEnd();
+                return;
+        }
     }
 
     private void TurnStart()
     {
-        if (phase != "Start")
-        {
-            return;
-        }
-
         currentUnit = bq.CurrentUnit();
-        bm.MarkedTarget(currentUnit);
-        bui.HpInit();
-        StartCoroutine(currentUnit.gameObject.GetComponent<Personage>().UnitPosition(1.5f));
+        bm.MarkedTarget(currentUnit);        
+        bui.HpInit(battleQueue);        
 
-        phase = "Turn";
-    }
+        battlePhase = BattleState.AnimationStart;
+    }    
 
-    private void Turn()
-    {
-        if (phase != "Turn")
-        {
-            return;
-        }
+    private void TurnEnd() {                
+        battlePhase = BattleState.AnimationEnd;
 
-        bool isAlly = currentUnit.team == "Ally";
-        bool isEnemy = currentUnit.team == "Enemy";
-
-        if (isAlly)
-        {
-            ally.Turn();
-        }
-        else if (isEnemy)
-        {
-            enemy.Turn(currentUnit);
-        }
-    }
-
-    private void TurnEnd() {
-        if (phase != "End")
-        {
-            return;
-        }        
-
-        bm.DestroyTurnMark();        
-
-        phase = "Start";        
-
-        bq.BattleEnd();
+        bm.DestroyTurnMark();
+        bq.BattleEnd();        
     }
 
     public void Skip()
     {
-        ally.Skip();
+        battlePhase = BattleState.TurnEnd;
     }
 }

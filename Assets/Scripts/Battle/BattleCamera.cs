@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class BattleCamera : MonoBehaviour
 {
+    void Start() { }
+
     public void StartCamera() 
     {
         Transform endPoint = GameObject.Find("EndCameraPoint").GetComponent<Transform>();

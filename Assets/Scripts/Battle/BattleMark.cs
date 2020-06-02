@@ -2,6 +2,8 @@
 
 public class BattleMark : MonoBehaviour
 {
+    void Start() { }
+
     public void Create(UnitStatus currentUnit, string path = "test2") 
     {
         if (currentUnit.status == "Dead")

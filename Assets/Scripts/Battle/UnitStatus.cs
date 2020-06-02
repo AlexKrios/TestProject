@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class UnitStatus
 {
     public GameObject gameObject;
+    public GameObject model;
     public Text hpText;
 
     public string status;
