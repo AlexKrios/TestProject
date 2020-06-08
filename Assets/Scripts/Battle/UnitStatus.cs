@@ -6,6 +6,13 @@ public class UnitStatus
 {
     public GameObject gameObject;
     public GameObject model;
+
+    public GameObject collider;
+    public GameObject body;
+    public GameObject armor;
+    public GameObject gunRight;
+    public GameObject gunLeft;
+
     public Text hpText;
 
     public string status;

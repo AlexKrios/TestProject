@@ -3,13 +3,13 @@ using System.Linq;
 
 public class Technician : Personage
 {
-    public override void Attack(UnitStatus targetUnit)
+    public override void Attack()
     {
-        targetUnit.currentHp += attack;
+        BattleManager.targetUnit.currentHp += attack;
 
-        if (targetUnit.currentHp > targetUnit.hp)
+        if (BattleManager.targetUnit.currentHp > BattleManager.targetUnit.hp)
         {
-            targetUnit.currentHp = targetUnit.hp;
+            BattleManager.targetUnit.currentHp = BattleManager.targetUnit.hp;
         }
     }
 

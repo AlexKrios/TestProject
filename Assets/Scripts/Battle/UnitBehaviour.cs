@@ -48,14 +48,20 @@ public class UnitBehaviour : MonoBehaviour
             return null;
         }
 
-        _targetUnit = battleQueue.First(x => x.model.gameObject.name == hit.transform.gameObject.name);
-        bool isTarget = _currentUnit.target.Contains(_targetUnit.place);
-        if (!isTarget)
+        _targetUnit = battleQueue.First(x => x.model.gameObject == hit.transform.gameObject);
+        bool isLive = _targetUnit.status != "Dead";
+        if (!isLive)
         {
             return null;
         }
 
-        BattleManager.battlePhase = BattleState.AnimationTurn;
+        bool isTarget = _currentUnit.target.Contains(_targetUnit.place);        
+        if (!isTarget)
+        {
+            return null;
+        }        
+
+        BattleManager.battlePhase = BattleStateEnum.AnimationTurn;
         return _targetUnit;
     }
 
@@ -64,7 +70,7 @@ public class UnitBehaviour : MonoBehaviour
         var randomIndex = Random.Range(0, _currentUnit.target.Count);
         var place = _currentUnit.target[randomIndex];
 
-        BattleManager.battlePhase = BattleState.AnimationTurn;
+        BattleManager.battlePhase = BattleStateEnum.AnimationTurn;
         return battleQueue.First(x => x.place == place);
     }
 }

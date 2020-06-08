@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
 using System;
 
 public abstract class Personage : MonoBehaviour
@@ -18,13 +17,6 @@ public abstract class Personage : MonoBehaviour
     public int initiative;
     [NonSerialized]
     public string type;
-
-    //[HideInInspector]
-    //public int level;
-    //[HideInInspector]
-    //public int expirence;
-    //[HideInInspector]
-    //public int currentExpirence;
 
     protected GameObject cam;
     protected List<UnitStatus> battleQueue;
@@ -69,25 +61,14 @@ public abstract class Personage : MonoBehaviour
         cam.GetComponent<BattleMark>().Create(targetUnit, "test1");
     }
 
-    public virtual void Attack(UnitStatus targetUnit) 
+    public virtual void Attack() 
     {        
-        targetUnit.currentHp -= attack;
+        BattleManager.targetUnit.currentHp -= attack;
 
-        if (targetUnit.currentHp <= 0)
+        if (BattleManager.targetUnit.currentHp <= 0)
         {
-            targetUnit.status = "Dead";
-            Destroy(targetUnit.gameObject);
-        }
-    }
-
-    public IEnumerator UnitRotation()
-    {
-        float t = 0;
-        while (t < 1)
-        {
-            t += Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(BattleManager.targetUnit.gameObject.transform.position - transform.position), 5 * Time.deltaTime);
-            yield return null;
+            BattleManager.targetUnit.status = "Dead";
+            //Destroy(targetUnit.gameObject);
         }
     }
 
@@ -97,21 +78,6 @@ public abstract class Personage : MonoBehaviour
     {
         Debug.Log($"Hp: {hp}, Attack: {attack}, Defence: {defence}, Initiative: {initiative}");
         //Debug.Log($"Type: {type}");
-    }
-
-    public void BattlePhaseStartTurn()
-    {
-        BattleManager.battlePhase = BattleState.TurnStart;
-    }
-
-    public void BattlePhaseTurn()
-    {        
-        BattleManager.battlePhase = BattleState.Turn;
-    }
-
-    public void BattlePhaseEndTurn()
-    {
-        BattleManager.battlePhase = BattleState.TurnEnd;
     }
 
     public void Test()

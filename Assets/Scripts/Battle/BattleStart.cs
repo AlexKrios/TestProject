@@ -23,7 +23,6 @@ public class BattleStart : MonoBehaviour
 
             if (unit != null) {
                 unit.gameObject.name = $"{team}{count + 1}";
-                unit.model.gameObject.name = $"{team}{count + 1}Model";
                 unit.gameObject.transform.parent = parent;
                 unit.gameObject.transform.position = unitPosition[count];
                 unit.gameObject.transform.rotation = unitRotation;
@@ -48,12 +47,17 @@ public class BattleStart : MonoBehaviour
         UnitStatus unit = new UnitStatus();
 
         GameObject unitGameObject = Instantiate(Resources.Load(path, typeof(GameObject)) as GameObject);
-        GameObject unitModel = unitGameObject.gameObject.transform.Find("Model").gameObject;
+
+        GameObject unitBody = unitGameObject.gameObject.transform.Find("Body").gameObject;
+        //GameObject unitArmor = unitGameObject.gameObject.transform.Find("Armor").gameObject;
+        //GameObject unitGunRight = unitGameObject.gameObject.transform.Find("GunRight").gameObject;
+        //GameObject unitGunKeft = unitGameObject.gameObject.transform.Find("GunLeft").gameObject;
+
         Personage unitClass = unitGameObject.GetComponent<Personage>();
 
         /* Unit stats export */
         unit.gameObject = unitGameObject;
-        unit.model = unitModel;
+        unit.model = unitBody;
         unit.model.tag = team;
         unit.status = "Live";
         unit.turn = true;
@@ -75,19 +79,19 @@ public class BattleStart : MonoBehaviour
         Vector3[] unitPosition = new Vector3[5];
 
         if (team == "Ally") {
-            unitPosition[0] = new Vector3(-3, 1, 3);
-            unitPosition[1] = new Vector3(-3, 1, 0);
-            unitPosition[2] = new Vector3(-3, 1, -3);
-            unitPosition[3] = new Vector3(-6, 1, 1.5f);
-            unitPosition[4] = new Vector3(-6, 1, -1.5f);
+            unitPosition[0] = new Vector3(-4, 1, 4);
+            unitPosition[1] = new Vector3(-4, 1, 0);
+            unitPosition[2] = new Vector3(-4, 1, -4);
+            unitPosition[3] = new Vector3(-8, 1, 2f);
+            unitPosition[4] = new Vector3(-8, 1, -2f);
         }
 
         if (team == "Enemy") {
-            unitPosition[0] = new Vector3(3, 1, 3);
-            unitPosition[1] = new Vector3(3, 1, 0);
-            unitPosition[2] = new Vector3(3, 1, -3);
-            unitPosition[3] = new Vector3(6, 1, 1.5f);
-            unitPosition[4] = new Vector3(6, 1, -1.5f);
+            unitPosition[0] = new Vector3(4, 1, 4);
+            unitPosition[1] = new Vector3(4, 1, 0);
+            unitPosition[2] = new Vector3(4, 1, -4);
+            unitPosition[3] = new Vector3(8, 1, 2f);
+            unitPosition[4] = new Vector3(8, 1, -2f);
         }
         
         return unitPosition;

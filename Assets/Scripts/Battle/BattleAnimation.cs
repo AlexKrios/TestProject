@@ -2,48 +2,92 @@
 
 public class BattleAnimation : MonoBehaviour
 {
-    private Animator animator;
+    private Animator _currentAnimator;
+    private Animator _targetAnimator;
+
     private UnitStatus _currentUnit;
     private UnitStatus _targetUnit;
 
     void Start() { }
 
-    public void CameraStart()
-    {
-        var animator = GameObject.Find("MainCamera").GetComponent<Animator>();
-        animator.SetBool("isStart", true);
-    }
-
     public void TurnStart()
-    {
-        animator = BattleManager.currentUnit.gameObject.GetComponent<Animator>();
-        animator.SetBool("isTurn", true);
+    {        
+        _currentAnimator = BattleManager.currentUnit.gameObject.GetComponent<Animator>();
+        _currentAnimator.SetBool("isTurn", true);
     }
 
     public void TurnEnd()
     {
-        animator = BattleManager.currentUnit.gameObject.GetComponent<Animator>();
-        animator.SetBool("isTurn", false);
+        _currentAnimator = BattleManager.currentUnit.gameObject.GetComponent<Animator>();
+        _currentAnimator.SetBool("isTurn", false);
     }
 
-    public void Turn()
+    public void TurnAttackStart()
     {
         _currentUnit = BattleManager.currentUnit;
         _targetUnit = BattleManager.targetUnit;
 
         float speed = BattleManager.globalSpeed * 6;
 
+        _currentAnimator = _currentUnit.gameObject.GetComponent<Animator>();
+        _currentAnimator.SetBool("isAttack", true);        
+
         Vector3 currentPos = _currentUnit.gameObject.transform.position;
         Quaternion currentRot = _currentUnit.gameObject.transform.rotation;
         Vector3 targetPos = _targetUnit.gameObject.transform.position;
+
+        if (_currentUnit.gameObject == _targetUnit.gameObject)
+        {
+            return;
+        }
 
         _currentUnit.gameObject.transform.rotation = Quaternion.Slerp(
             currentRot,
             Quaternion.LookRotation(targetPos - currentPos), 
             Time.deltaTime * speed
         );
+    }
 
-        animator = BattleManager.currentUnit.gameObject.GetComponent<Animator>();
-        animator.SetBool("isAttack", true);
+    public void TurnAttackEnd()
+    {        
+        _currentAnimator = BattleManager.currentUnit.gameObject.GetComponent<Animator>();
+        _currentAnimator.SetBool("isAttack", false);
+    }
+
+    public void HitStart()
+    {
+        _targetAnimator = BattleManager.targetUnit.gameObject.GetComponent<Animator>();
+        _targetAnimator.SetBool("isHit", true);
+    }
+
+    public void HitEnd()
+    {
+        _targetAnimator = BattleManager.targetUnit.gameObject.GetComponent<Animator>();
+        _targetAnimator.SetBool("isHit", false);
+    }
+
+    public void Dead()
+    {
+        _targetAnimator = BattleManager.targetUnit.gameObject.GetComponent<Animator>();
+        _targetAnimator.SetBool("isHit", false);
+
+        if (BattleManager.targetUnit.status == "Dead")
+        {
+            _targetAnimator.SetBool("isDead", true);
+        }        
+    }
+
+    public void DeadEnd()
+    {
+        _targetAnimator.SetBool("isTurn", false);
+    }
+
+    public void ResetTrigger()
+    {
+        _currentAnimator = BattleManager.currentUnit.gameObject.GetComponent<Animator>();
+        _targetAnimator = BattleManager.targetUnit.gameObject.GetComponent<Animator>();
+
+        _currentAnimator.SetBool("isAttack", false);
+        _targetAnimator.SetBool("isHit", false);
     }
 }

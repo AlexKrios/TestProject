@@ -1,35 +1,22 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum BattleState
-{
-    CameraStart = 0,
-    TurnStart = 1,
-    AnimationStart = 2,
-    Turn = 3,
-    AnimationTurn = 4,
-    TurnEnd = 5,
-    AnimationEnd = 6,
-    BattleEnd = 7
-}
-
 public class BattleManager : MonoBehaviour
 {
     public GameObject cam;
 
     public static float globalSpeed = 1;
-    public static BattleState battlePhase = BattleState.TurnStart;
+    public static BattleStateEnum battlePhase = BattleStateEnum.CameraStart;
 
     /* Army arrays */
-    private UnitStatus[] allyArmy;
-    private UnitStatus[] enemyArmy;
+    private UnitStatus[] _allyArmy;
+    private UnitStatus[] _enemyArmy;
 
     public List<UnitStatus> battleQueue = null;
     public static UnitStatus currentUnit = null;
     public static UnitStatus targetUnit = null;    
 
     /* Submodule classes */
-    public BattleCamera bc;
     public BattleStart bs;
     public BattleQueue bq;
     public BattleMark bm;    
@@ -40,63 +27,66 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {        
-        allyArmy = bs.CreateArmy("Ally");
-        enemyArmy = bs.CreateArmy("Enemy");
+        _allyArmy = bs.CreateArmy("Ally");
+        _enemyArmy = bs.CreateArmy("Enemy");
 
-        battleQueue = bq.CreateQueue(allyArmy, enemyArmy);
-
-        bc.StartCamera();        
+        battleQueue = bq.CreateQueue(_allyArmy, _enemyArmy);
     }
 
     void Update()
     {
+        bui.HpInit(battleQueue);
+
         switch (battlePhase)
         {
-            case BattleState.CameraStart:
-                ba.CameraStart();
+            case BattleStateEnum.CameraStart:
                 return;
-            case BattleState.TurnStart:
+            case BattleStateEnum.TurnStart:
                 TurnStart();                
                 return;
-            case BattleState.AnimationStart:
+            case BattleStateEnum.AnimationStart:
                 ba.TurnStart();
                 return;
-            case BattleState.Turn:
+            case BattleStateEnum.Turn:
                 targetUnit = ub.Turn(currentUnit);
                 return;
-            case BattleState.AnimationTurn:
-                ba.Turn();
+            case BattleStateEnum.AnimationTurn:
+                ba.TurnAttackStart();
                 return;
-            case BattleState.TurnEnd:
+            case BattleStateEnum.AnimationDead:
+                ba.Dead();
+                return;
+            case BattleStateEnum.TurnEnd:
                 TurnEnd();
                 return;
-            case BattleState.AnimationEnd:
+            case BattleStateEnum.AnimationEnd:
                 ba.TurnEnd();
                 return;
-            case BattleState.BattleEnd:
+            case BattleStateEnum.BattleEnd:
                 bq.BattleEnd();
                 return;
-        }
+        }        
     }
 
     private void TurnStart()
     {
         currentUnit = bq.CurrentUnit();
         bm.MarkedTarget(currentUnit);        
-        bui.HpInit(battleQueue);        
 
-        battlePhase = BattleState.AnimationStart;
+        battlePhase = BattleStateEnum.AnimationStart;
     }    
 
-    private void TurnEnd() {                
-        battlePhase = BattleState.AnimationEnd;
-
+    private void TurnEnd() 
+    {
         bm.DestroyTurnMark();
+
+        battlePhase = BattleStateEnum.AnimationEnd;        
+
         bq.BattleEnd();        
     }
 
     public void Skip()
     {
-        battlePhase = BattleState.TurnEnd;
+        battlePhase = BattleStateEnum.TurnEnd;
     }
 }

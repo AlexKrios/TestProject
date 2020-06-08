@@ -4,16 +4,16 @@ public class Test : MonoBehaviour
 {
     void Update()
     {
-        transform.Translate(Vector3.forward * 50 * Time.deltaTime);
+        float step = 50 * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, BattleManager.targetUnit.gameObject.transform.position, step);
     }
 
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log(col.gameObject.name);
-        Debug.Log(BattleManager.targetUnit.gameObject.name);
-        if (col.gameObject.name.Contains(BattleManager.targetUnit.gameObject.name))
+        if (col.gameObject == BattleManager.targetUnit.model.gameObject)
         {
-            Debug.Log("Destroy");
+            GameObject.Find("MainCamera").GetComponent<BattleAnimation>().HitStart();
+            BattleManager.currentUnit.gameObject.GetComponent<Personage>().Attack();
             Destroy(gameObject);
         }        
     }

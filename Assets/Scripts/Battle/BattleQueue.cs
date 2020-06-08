@@ -109,7 +109,7 @@ public class BattleQueue : MonoBehaviour
 
         if (allyCount == 0 || enemyCount == 0) 
         {
-            BattleManager.battlePhase = BattleState.BattleEnd;
+            BattleManager.battlePhase = BattleStateEnum.BattleEnd;
 
             Debug.Log("End battle");
         }
