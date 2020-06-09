@@ -4,10 +4,9 @@ using UnityEngine.UI;
 
 public class UnitStatus
 {
+    public GameObject parent;
     public GameObject gameObject;
-    public GameObject model;
 
-    public GameObject collider;
     public GameObject body;
     public GameObject armor;
     public GameObject gunRight;

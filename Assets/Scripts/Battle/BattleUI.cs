@@ -8,7 +8,7 @@ public class BattleUI : MonoBehaviour
 
     public void HpIndicator(UnitStatus unitStatus)
     {
-        var canvas = unitStatus.model.gameObject.transform.Find("Canvas").gameObject;
+        var canvas = unitStatus.gameObject.transform.Find("Canvas").gameObject;
         var hpBar = canvas.transform.Find("HpBg/HpBar").GetComponent<Image>();
 
         hpBar.fillAmount = (float)(100 / unitStatus.hp * unitStatus.currentHp) / 100;

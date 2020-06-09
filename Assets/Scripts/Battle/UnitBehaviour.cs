@@ -48,7 +48,7 @@ public class UnitBehaviour : MonoBehaviour
             return null;
         }
 
-        _targetUnit = battleQueue.First(x => x.model.gameObject == hit.transform.gameObject);
+        _targetUnit = battleQueue.First(x => x.gameObject == hit.transform.gameObject);
         bool isLive = _targetUnit.status != "Dead";
         if (!isLive)
         {

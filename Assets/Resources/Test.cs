@@ -10,7 +10,7 @@ public class Test : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject == BattleManager.targetUnit.model.gameObject)
+        if (col.gameObject == BattleManager.targetUnit.gameObject)
         {
             GameObject.Find("MainCamera").GetComponent<BattleAnimation>().HitStart();
             BattleManager.currentUnit.gameObject.GetComponent<Personage>().Attack();

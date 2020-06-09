@@ -3,40 +3,34 @@
 public class BattleStart : MonoBehaviour
 {
     private readonly Group group = new Group();
-    private int allCount = 0;
+
+    private string _team;
+
+    private int _allCount = 0;
+    private int _count = 0;
 
     void Start() { }
 
     public UnitStatus[] CreateArmy(string team) 
     {
         UnitStatus[] army = new UnitStatus[5];
-
-        int count = 0;
-
-        Transform parent = GameObject.Find($"{team}Team").GetComponent<Transform>();
-        Vector3[] unitPosition = InitPositionArray(team);
-        Quaternion unitRotation = InitRotationArray(team);
+        _team = team;
+        _count = 0;
 
         foreach (string member in group.member)
         {
-            UnitStatus unit = CreateUnit(member, team);
+            var unit = CreateUnit(member);
 
-            if (unit != null) {
-                unit.gameObject.name = $"{team}{count + 1}";
-                unit.gameObject.transform.parent = parent;
-                unit.gameObject.transform.position = unitPosition[count];
-                unit.gameObject.transform.rotation = unitRotation;
-            }
+            army[_count] = unit;
 
-            army[count] = unit;
-            allCount++;
-            count++;
+            _allCount++;
+            _count++;
         }
 
         return army;
     }
 
-    private UnitStatus CreateUnit(string member, string team) 
+    private UnitStatus CreateUnit(string member) 
     {
         string path = $"Battle/Сharacters/{member}/{member}";
 
@@ -46,24 +40,34 @@ public class BattleStart : MonoBehaviour
 
         UnitStatus unit = new UnitStatus();
 
-        GameObject unitGameObject = Instantiate(Resources.Load(path, typeof(GameObject)) as GameObject);
+        var unitParent = GameObject.Find($"{_team}{_count + 1}");
+        var unitGameObject = Instantiate(Resources.Load(path, typeof(GameObject)) as GameObject);
+        var unitClass = unitGameObject.GetComponent<Personage>();
 
-        GameObject unitBody = unitGameObject.gameObject.transform.Find("Body").gameObject;
-        //GameObject unitArmor = unitGameObject.gameObject.transform.Find("Armor").gameObject;
-        //GameObject unitGunRight = unitGameObject.gameObject.transform.Find("GunRight").gameObject;
-        //GameObject unitGunKeft = unitGameObject.gameObject.transform.Find("GunLeft").gameObject;
+        unitGameObject.name = unitClass.type;
+        unitGameObject.transform.parent = unitParent.transform;
+        unitGameObject.transform.position = unitParent.transform.position;
+        unitGameObject.transform.rotation = InitRotationArray();
 
-        Personage unitClass = unitGameObject.GetComponent<Personage>();
+        var unitBody = unitGameObject.transform.Find("Body").gameObject;
+        var unitArmor = unitGameObject.transform.Find("Armor").gameObject;
+        var unitGunRight = unitGameObject.transform.Find("GunRight").gameObject;
+        var unitGunLeft = unitGameObject.transform.Find("GunLeft").gameObject;
 
         /* Unit stats export */
+        unit.parent = unitParent;
         unit.gameObject = unitGameObject;
-        unit.model = unitBody;
-        unit.model.tag = team;
+        unit.gameObject.tag = _team;
+
+        unit.body = unitBody;
+        unit.armor = unitArmor;
+        unit.gunRight = unitGunRight;
+        unit.gunLeft = unitGunLeft;
+
         unit.status = "Live";
         unit.turn = true;
-        unit.team = team;
-        unit.place = allCount;
-        //unit.level = unitClass.level;        
+        unit.team = _team;
+        unit.place = _allCount;
         unit.hp = unitClass.hp;
         unit.currentHp = unitClass.hp;
         unit.attack = unitClass.attack;
@@ -72,41 +76,18 @@ public class BattleStart : MonoBehaviour
         unit.type = unitClass.type;
 
         return unit;
-    }    
-
-    private Vector3[] InitPositionArray(string team)
-    {
-        Vector3[] unitPosition = new Vector3[5];
-
-        if (team == "Ally") {
-            unitPosition[0] = new Vector3(-4, 1, 4);
-            unitPosition[1] = new Vector3(-4, 1, 0);
-            unitPosition[2] = new Vector3(-4, 1, -4);
-            unitPosition[3] = new Vector3(-8, 1, 2f);
-            unitPosition[4] = new Vector3(-8, 1, -2f);
-        }
-
-        if (team == "Enemy") {
-            unitPosition[0] = new Vector3(4, 1, 4);
-            unitPosition[1] = new Vector3(4, 1, 0);
-            unitPosition[2] = new Vector3(4, 1, -4);
-            unitPosition[3] = new Vector3(8, 1, 2f);
-            unitPosition[4] = new Vector3(8, 1, -2f);
-        }
-        
-        return unitPosition;
     }
 
-    private Quaternion InitRotationArray(string team)
+    private Quaternion InitRotationArray()
     {
         Quaternion unitRotation = new Quaternion();
 
-        if (team == "Ally")
+        if (_team == "Ally")
         {
             unitRotation = Quaternion.Euler(0, 90, 0);
         }
 
-        if (team == "Enemy")
+        if (_team == "Enemy")
         {
             unitRotation = Quaternion.Euler(0, -90, 0);
         }
