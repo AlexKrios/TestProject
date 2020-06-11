@@ -47,7 +47,7 @@ public class BattleStart : MonoBehaviour
         unitGameObject.name = unitClass.type;
         unitGameObject.transform.parent = unitParent.transform;
         unitGameObject.transform.position = unitParent.transform.position;
-        unitGameObject.transform.rotation = InitRotationArray();
+        unitParent.transform.rotation = InitRotationArray();
 
         var unitBody = unitGameObject.transform.Find("Body").gameObject;
         var unitArmor = unitGameObject.transform.Find("Armor").gameObject;

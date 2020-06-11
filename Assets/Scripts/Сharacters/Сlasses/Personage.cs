@@ -33,7 +33,7 @@ public abstract class Personage : MonoBehaviour
     void Start() 
     {
         cam = GameObject.Find("MainCamera");
-        battleQueue = cam.GetComponent<BattleQueue>().battleQueue;       
+        battleQueue = cam.GetComponent<BattleQueue>().battleQueue;
     }
 
     public virtual List<int> UnitTarget(string team)
@@ -68,7 +68,6 @@ public abstract class Personage : MonoBehaviour
         if (BattleManager.targetUnit.currentHp <= 0)
         {
             BattleManager.targetUnit.status = "Dead";
-            //Destroy(targetUnit.gameObject);
         }
     }
 

@@ -32,16 +32,16 @@ public class BattleAnimation : MonoBehaviour
         _currentAnimator = _currentUnit.gameObject.GetComponent<Animator>();
         _currentAnimator.SetBool("isAttack", true);        
 
-        Vector3 currentPos = _currentUnit.gameObject.transform.position;
-        Quaternion currentRot = _currentUnit.gameObject.transform.rotation;
-        Vector3 targetPos = _targetUnit.gameObject.transform.position;
+        Vector3 currentPos = _currentUnit.parent.transform.position;
+        Quaternion currentRot = _currentUnit.parent.transform.rotation;
+        Vector3 targetPos = _targetUnit.parent.transform.position;
 
         if (_currentUnit.gameObject == _targetUnit.gameObject)
         {
             return;
         }
 
-        _currentUnit.gameObject.transform.rotation = Quaternion.Slerp(
+        _currentUnit.parent.transform.rotation = Quaternion.Slerp(
             currentRot,
             Quaternion.LookRotation(targetPos - currentPos), 
             Time.deltaTime * speed
