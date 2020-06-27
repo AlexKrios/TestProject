@@ -36,6 +36,7 @@ public class BattleManager : MonoBehaviour
     void Update()
     {
         bui.HpInit(battleQueue);
+        //bui.GlobalHp();
 
         switch (battlePhase)
         {
@@ -70,17 +71,19 @@ public class BattleManager : MonoBehaviour
 
     private void TurnStart()
     {
-        currentUnit = bq.CurrentUnit();
-        bm.MarkedTarget(currentUnit);        
+        currentUnit = bq.CurrentUnit();        
+        bm.MarkedTarget(currentUnit);
 
-        battlePhase = BattleStateEnum.AnimationStart;
+        targetUnit = null;
+
+        battlePhase = BattleStateEnum.AnimationStart;        
     }    
 
     private void TurnEnd() 
     {
         bm.DestroyTurnMark();
 
-        battlePhase = BattleStateEnum.AnimationEnd;        
+        battlePhase = BattleStateEnum.AnimationEnd;
 
         bq.BattleEnd();        
     }

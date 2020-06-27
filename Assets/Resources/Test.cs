@@ -13,7 +13,7 @@ public class Test : MonoBehaviour
         if (col.gameObject == BattleManager.targetUnit.gameObject)
         {
             GameObject.Find("MainCamera").GetComponent<BattleAnimation>().HitStart();
-            BattleManager.currentUnit.gameObject.GetComponent<Personage>().Attack();
+            BattleManager.currentUnit.gameObject.GetComponent<IAttack>().Attack();
             Destroy(gameObject);
         }        
     }
