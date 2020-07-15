@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4219436225204942341}
   - component: {fileID: 4219436225204942458}
   - component: {fileID: 686285256685994804}
-  - component: {fileID: 2148575562079918687}
+  - component: {fileID: 7547521218904846647}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -58,7 +58,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -83,7 +82,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &4219436225204942458
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -113,7 +111,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2148575562079918687
+--- !u!114 &7547521218904846647
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,6 +120,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4219436225204942459}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68aba7c639f085c429e9f11c5e444dcb, type: 3}
+  m_Script: {fileID: 11500000, guid: e891e2559548f2045ba453d49cb3ae5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
