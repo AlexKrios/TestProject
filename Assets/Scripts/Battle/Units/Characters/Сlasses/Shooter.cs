@@ -1,4 +1,4 @@
-﻿using Battle.Units.Behaviour;
+﻿using Battle.Units;
 
 public class Shooter : Unit
 {

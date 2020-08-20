@@ -1,10 +1,11 @@
-﻿using Battle.Units;
-using Battle.Units.Animations;
-using Battle.Units.Interfaces;
-using System;
+﻿using Battle.Create;
+using Battle.Load;
+using Battle.Save;
+using Battle.Units;
+using Battle.Units.Turn;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace Battle
 {
@@ -20,61 +21,55 @@ namespace Battle
 
         public List<string> battleStatus = new List<string>();
 
+        private readonly Group _group = new Group();
+
         /* Sub-modules */
+        [Header("Create")]  
+        public ArmyCreate armyCreate;
+
+        [Header("Load")]    
         public UnitsLoad unitsLoad;
+
+        [Header("Save")]    
         public UnitsSave unitsSave;
-        public UnitsCreate unitsCreate;
-        public UnitsQueue unitsQueue;        
-        public UnitsMark unitsMark;
 
-        public BattleUI battleUI;
+        [Header("Queue")]   
+        public UnitsQueue unitsQueue;
 
-        [NonSerialized] public UnityEvent OnTurnInit = new UnityEvent();
-        [NonSerialized] public UnityEvent OnTurnStart = new UnityEvent();
+        [Header("Mark")]    
+        public UnitsMark unitsMark;                
+
+        [Header("Turn")]
+        public TurnStart turnStart;
+        public TurnEnd turnEnd;
+
+        [Header("UI")]      
+        public UIManager uiManager;
 
         private void Start()
         {
             Instance = this;
 
-            var allyArmy = unitsCreate.CreateArmy("Ally");
-            var enemyArmy = unitsCreate.CreateArmy("Enemy");
+            var allArmy = armyCreate.CreateArmy(_group.allyTeam);
+            var enemyArmy = armyCreate.CreateArmy(_group.enemyTeam);
 
-            unitsList = unitsQueue.CreateQueue(allyArmy, enemyArmy);
-            AddBattleStatus("CameraMove");
+            unitsList = unitsQueue.CreateQueue(allArmy, enemyArmy);
 
-            OnTurnInit.AddListener(TurnInit);
-            OnTurnStart.AddListener(TurnStart);
-        }
-
-        private void Update()
-        {
-            battleUI.HpInit(unitsList);
-        }
-
-        public void TurnInit()
-        {
-            currentUnit = unitsQueue.SetCurrentUnit();
-            targetUnit = null;
-            unitsMark.DestroyTurnMark();
-
-            currentUnit.gameObject.GetComponent<IUnitMarked>().MarkedTargetAndSelf();
-            currentUnit.gameObject.GetComponent<IAnimTurnStart>().TurnStart();
-        }
-
-        public void TurnStart()
-        {
-            currentUnit.gameObject.GetComponent<UnitTurn>().Execute();
-            RemoveBattleStatus("UnitAttack");
+            uiManager.HpInit(unitsList);
         }
 
         public void AddBattleStatus(string value)
         {
             battleStatus.Add(value);
         }
-
         public void RemoveBattleStatus(string value)
         {
             battleStatus.Remove(value);
+        }
+
+        public void Restart() 
+        {
+            SceneManager.LoadScene("Battle");
         }
     }
 }

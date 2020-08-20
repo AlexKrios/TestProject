@@ -8,11 +8,10 @@ namespace Battle.Units
     {
         public GameObject parent;
         public GameObject gameObject;
-
-        public GameObject body;
+        
         public GameObject armor;
-        public GameObject gunRight;
-        public GameObject gunLeft;
+        public GameObject weapon;
+        public GameObject face;
 
         public Text hpText;
 
@@ -35,6 +34,7 @@ namespace Battle.Units
         public int currentHp;
 
         public int attack;
+        public int aimCount;
         public string attackType;
 
         public int defence;

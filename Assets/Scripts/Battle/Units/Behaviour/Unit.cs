@@ -1,11 +1,11 @@
-﻿using Battle.Units.Interfaces;
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using Battle.Units.Animations;
+using Battle.Units.Characters;
+using Units.Animations;
 
-namespace Battle.Units.Behaviour
+namespace Battle.Units
 {
     public abstract class Unit : MonoBehaviour, IUnitTarget, IUnitMarked, IUnitAttack, IUnitDamage, IUnitSkip
     {
@@ -45,8 +45,8 @@ namespace Battle.Units.Behaviour
 
         public virtual void MarkedTargetAndSelf()
         {
-            var currentPath = "test2";
-            var targetPath = "test1";
+            var currentPath = "Battle/Marks/CurrentMark";
+            var targetPath = "Battle/Marks/EnemyMark";
 
             UnitsMark.Create(CurrentUnit, currentPath);
             foreach (int index in CurrentUnit.target)
@@ -61,9 +61,16 @@ namespace Battle.Units.Behaviour
             gameObject.GetComponent<UnitAnimation>().OnAttackTarget.Invoke();
         }
 
+        public virtual void Aim()
+        {
+            var weaponModel = CurrentUnit.weapon.transform.Find("Model").gameObject;
+            StartCoroutine(weaponModel.GetComponent<IAim>().Aim());
+        }
+
         public virtual void Damage()
         {
-            TargetUnit.currentHp -= attack;
+            TargetUnit.currentHp -= attack / CurrentUnit.aimCount;
+            Manager.uiManager.HpChange(TargetUnit);
 
             if (TargetUnit.currentHp <= 0)
             {
@@ -77,13 +84,6 @@ namespace Battle.Units.Behaviour
         {
             Debug.Log($"Hp: {hp}, Attack: {attack}, Defence: {defence}, Initiative: {initiative}");
             //Debug.Log($"Type: {type}");
-        }
-
-        public void Test()
-        {
-            GameObject bullet = Instantiate(Resources.Load("Bullet", typeof(GameObject)) as GameObject);
-            bullet.gameObject.transform.position = CurrentUnit.gameObject.transform.position;
-            bullet.gameObject.transform.rotation = TargetUnit.gameObject.transform.rotation;
-        }
+        }        
     }
 }

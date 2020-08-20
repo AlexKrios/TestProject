@@ -1,4 +1,4 @@
-﻿namespace Battle.Units.Interfaces
+﻿namespace Battle.Units
 {
     public interface IUnitMarked
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Battle.Units.Interfaces
+namespace Battle.Units
 {
     public interface IUnitTarget
     {

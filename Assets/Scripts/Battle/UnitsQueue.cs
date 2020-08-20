@@ -1,5 +1,4 @@
 ﻿using Battle.Units;
-using Battle.Units.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

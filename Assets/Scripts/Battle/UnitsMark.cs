@@ -18,7 +18,7 @@ namespace Battle
             turnMark.transform.parent = go.transform;
             turnMark.transform.position = new Vector3(
                 go.transform.position.x,
-                go.transform.position.y - 0.75f,
+                go.transform.position.y - 1.5f,
                 go.transform.position.z
             );
             turnMark.transform.rotation = Quaternion.Euler(90, 0, 0);

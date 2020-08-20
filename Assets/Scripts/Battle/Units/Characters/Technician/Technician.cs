@@ -1,5 +1,4 @@
-﻿using Battle.Units.Behaviour;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Battle.Units.Characters.Technician
@@ -8,7 +7,8 @@ namespace Battle.Units.Characters.Technician
     {
         public override void Damage()
         {
-            TargetUnit.currentHp += attack;
+            TargetUnit.currentHp += attack / CurrentUnit.aimCount;
+            Manager.uiManager.HpChange(TargetUnit);
 
             if (TargetUnit.currentHp > TargetUnit.hp)
             {
@@ -28,8 +28,8 @@ namespace Battle.Units.Characters.Technician
 
         public override void MarkedTargetAndSelf()
         {
-            var currentPath = "test2";
-            var targetPath = "test3";
+            var currentPath = "Battle/Marks/CurrentMark";
+            var targetPath = "Battle/Marks/AllyMark";
 
             UnitsMark.Create(CurrentUnit, currentPath);
             foreach (int index in CurrentUnit.target)

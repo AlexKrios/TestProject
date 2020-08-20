@@ -1,4 +1,4 @@
-﻿namespace Battle.Units.Behaviour
+﻿namespace Battle.Units
 {
     public interface IUnitSkip
     {
