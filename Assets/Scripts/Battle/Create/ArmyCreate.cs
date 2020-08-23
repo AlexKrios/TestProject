@@ -23,7 +23,7 @@ namespace Battle.Create
                     continue;
                 }
 
-                string path = $"Battle/Сharacters/{member.type}/Unit";
+                string path = $"Characters/{member.type}/Unit";
 
                 UnitStatus unit = new UnitStatus();
                 unit.gameObject = Instantiate(Resources.Load(path, typeof(GameObject)) as GameObject);
@@ -37,7 +37,7 @@ namespace Battle.Create
 
                 unit.armor = unit.gameObject.transform.Find("Armor").gameObject;
                 unit.weapon = unit.gameObject.transform.Find("Weapon").gameObject;
-                unit.face = unit.gameObject.transform.Find("Face").gameObject;                                
+                unit.face = unit.gameObject.transform.Find("Face").gameObject;
 
                 unit.gameObject.AddComponent<Damagable>();
                 unit.gameObject.AddComponent<EnemyTurn>();
@@ -66,7 +66,7 @@ namespace Battle.Create
 
         private void CreateWeapon(UnitStatus unit)
         {
-            string pathWeapon = $"Battle/Сharacters/Hero/Weapon/Default/Weapon";
+            string pathWeapon = $"Characters/Hero/Weapon/Default/Weapon";
 
             var weaponModel = Instantiate(Resources.Load(pathWeapon, typeof(GameObject)) as GameObject);
             weaponModel.name = "Model";

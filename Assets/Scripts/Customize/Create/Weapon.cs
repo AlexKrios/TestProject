@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Units.Objects.Weapon;
+using UnityEngine;
 
 namespace Customize.Create
 {
@@ -8,17 +9,15 @@ namespace Customize.Create
 
         private void Start() { }
 
-        public void Execute(UnitTeamData member)
+        public void Execute(WeaponObject weapon)
         {
-            Create(member);
+            Create(weapon);
             Setup();
         }
 
-        private void Create(UnitTeamData member)
+        private void Create(WeaponObject weapon)
         {
-            string pathWeapon = $"Battle/Сharacters/Hero/Weapon/Default/Weapon";
-
-            var weaponModel = Instantiate(Resources.Load(pathWeapon, typeof(GameObject)) as GameObject);
+            var weaponModel = Instantiate(Resources.Load(weapon.PathModel, typeof(GameObject)) as GameObject);
             weaponModel.name = "Model";
             weaponModel.transform.parent = Manager.weapon.transform;
             weaponModel.transform.localPosition = new Vector3(0, 0, 0);

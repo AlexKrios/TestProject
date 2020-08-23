@@ -8,13 +8,13 @@ namespace Customize.Create
 
         private void Start() { }
 
-        public void Execute(UnitTeamData member)
+        public void Execute(string thruster)
         {
-            Create(member);
+            Create(thruster);
             Setup();
         }
 
-        private void Create(UnitTeamData member) { }
+        private void Create(string thruster) { }
 
         private void Setup() 
         {

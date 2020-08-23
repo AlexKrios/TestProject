@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Units.Objects.Unit;
+using Units.Objects.Weapon;
+using Units.Objects.Armor;
 
 namespace Customize
 {
@@ -12,16 +16,30 @@ namespace Customize
         [NonSerialized] public GameObject weapon;
         [NonSerialized] public GameObject armor;
 
+        [NonSerialized] public List<UnitObject> unitList;
+        [NonSerialized] public List<WeaponObject> weaponList;
+        [NonSerialized] public List<ArmorObject> armorList;
+
         /* Sub module */
         public CreateManager createManager;
+        public ParseManager parseManager;
 
-        public readonly Group group = new Group();
+        public UnitSelector unitSelector;
+        public SelectorHandler selectorHandler;
 
-        private void Start()
+        private void Awake()
         {
             Instance = this;
 
-            createManager.UnitCreate(group.allyTeam[0]);
+            unitList = parseManager.parseUnitData.Parse();
+            weaponList = parseManager.parseWeaponData.Parse();
+            armorList = parseManager.parseArmorData.Parse();
+        }
+
+        private void Start()
+        {
+            createManager.CreateUnit(unitList[0]);
+            unitSelector.CreateUnitSelector();
         }
     }
 }

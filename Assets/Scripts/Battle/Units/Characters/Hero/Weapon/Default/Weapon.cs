@@ -12,7 +12,7 @@ namespace Battle.Units.Hero.Weapon.Default
 
         public override IEnumerator Aim()
         {
-            var pathBullet = "Battle/Сharacters/Hero/Weapon/Default/Bullet";
+            var pathBullet = "Characters/Hero/Weapon/Default/Bullet";
 
             for (int i = 0; i < _aimPoints.Length; i++)
             {

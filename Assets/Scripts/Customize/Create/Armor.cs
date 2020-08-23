@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Units.Objects.Armor;
+using UnityEngine;
 
 namespace Customize.Create
 {    
@@ -6,13 +7,13 @@ namespace Customize.Create
     {
         private void Start() { }
 
-        public void Execute(UnitTeamData member)
+        public void Execute(ArmorObject armor)
         {
-            Create(member);
+            Create(armor);
             Setup();
         }
 
-        private void Create(UnitTeamData member) { }
+        private void Create(ArmorObject armor) { }
 
         private void Setup() { }
     }

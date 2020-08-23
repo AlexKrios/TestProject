@@ -1,0 +1,52 @@
+{
+  "Units": [
+    {
+      "Type": "Hero",
+      "PathModel": "Characters/Hero/Unit",
+
+      "Weapon": {
+        "Level": 1,
+        "PathModel": "Characters/Hero/Weapon/Default/Weapon"
+      },
+      "Armor": {
+        "PathModel": "Characters/Hero/Weapon/Default/Weapon"
+      }
+    },
+    {
+      "Type": "Recruit",
+      "PathModel": "Characters/Recruit/Unit",
+
+      "Weapon": {
+        "Level": 1,
+        "PathModel": "Characters/Hero/Weapon/Default/Weapon"
+      },
+      "Armor": {
+        "PathModel": "Characters/Hero/Weapon/Default/Weapon"
+      }
+    },
+    {
+      "Type": "Gunner",
+      "PathModel": "Characters/Gunner/Unit",
+
+      "Weapon": {
+        "Level": 1,
+        "PathModel": "Characters/Hero/Weapon/Default/Weapon"
+      },
+      "Armor": {
+        "PathModel": "Characters/Hero/Weapon/Default/Weapon"
+      }
+    },
+    {
+      "Type": "Technician",
+      "PathModel": "Characters/Technician/Unit",
+
+      "Weapon": {
+        "Level": 1,
+        "PathModel": "Characters/Hero/Weapon/Default/Weapon"
+      },
+      "Armor": {
+        "PathModel": "Characters/Hero/Weapon/Default/Weapon"
+      }
+    }
+  ]
+}

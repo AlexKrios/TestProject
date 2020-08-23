@@ -1,0 +1,12 @@
+{
+  "Weapons": [
+    {
+      "Level": 0,
+      "PathModel": "Characters/Hero/Weapon/Empty/Weapon"
+    },
+    {
+      "Level": 1,
+      "PathModel": "Characters/Hero/Weapon/Default/Weapon"
+    }
+  ]  
+}
