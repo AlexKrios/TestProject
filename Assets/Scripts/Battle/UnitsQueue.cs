@@ -1,6 +1,7 @@
 ﻿using Battle.Units;
 using System.Collections.Generic;
 using System.Linq;
+using Units.Objects.BattleUnit;
 using UnityEngine;
 
 namespace Battle
@@ -9,50 +10,50 @@ namespace Battle
     {
         private Manager Manager { get => Manager.Instance; }
 
-        public List<UnitStatus> UnitsList { get => Manager.unitsList; }
+        public List<BattleUnitObject> UnitsList { get => Manager.unitsList; }
 
         private void Start() { }
 
-        public List<UnitStatus> CreateQueue(List<UnitStatus> allyArmy, List<UnitStatus> enemyArmy)
+        public List<BattleUnitObject> CreateQueue(List<BattleUnitObject> allyArmy, List<BattleUnitObject> enemyArmy)
         {
-            var units = new List<UnitStatus>();
-            units.AddRange(allyArmy);                                                   //Added ally to list
-            units.AddRange(enemyArmy);                                                  //Added enemy to list
+            var units = new List<BattleUnitObject>();
+            units.AddRange(allyArmy);                                                       //Added ally to list
+            units.AddRange(enemyArmy);                                                      //Added enemy to list
 
-            units.RemoveAll(x => x == null);                                            //Remove empty cell
+            units.RemoveAll(x => x == null);                                                //Remove empty cell
 
-            var sortedUnits = units.OrderByDescending(u => u.initiative).ToList();      //Sort list by initiative
+            var sortedUnits = units.OrderByDescending(u => u.Unit.Initiative).ToList();     //Sort list by initiative
 
             return sortedUnits;
         }
 
-        public UnitStatus SetCurrentUnit()
+        public BattleUnitObject SetCurrentUnit()
         {
-            var currentUnit = UnitsList.FirstOrDefault(x => x.turn == true && x.status == "Live");         
+            var currentUnit = UnitsList.FirstOrDefault(x => x.Turn == true && x.Status == "Live");         
             if (currentUnit == null)
             {
                 RefreshQueue();
-                currentUnit = UnitsList.First(x => x.turn == true && x.status == "Live");
+                currentUnit = UnitsList.First(x => x.Turn == true && x.Status == "Live");
             }
             
-            currentUnit.turn = false;
-            var currentUnitTarget = currentUnit.gameObject.GetComponent<IUnitTarget>();
-            currentUnit.target = currentUnitTarget.UnitTarget(currentUnit.team);
+            currentUnit.Turn = false;
+            var currentUnitTarget = currentUnit.UnitGO.GetComponent<IUnitTarget>();
+            currentUnit.Target = currentUnitTarget.UnitTarget(currentUnit.Team);
 
             return currentUnit;
         }
 
         private void RefreshQueue()
         {
-            foreach (UnitStatus unit in UnitsList)
+            foreach (BattleUnitObject unit in UnitsList)
             {
-                unit.turn = true;
+                unit.Turn = true;
             }
         }
 
         private void QueueOutput()
         {
-            foreach (UnitStatus unit in UnitsList)
+            foreach (BattleUnitObject unit in UnitsList)
             {
                 if (unit == null)
                 {
@@ -60,7 +61,7 @@ namespace Battle
                     return;
                 }
 
-                Debug.Log($"{unit.gameObject} - {unit.status} - {unit.turn}");
+                Debug.Log($"{unit.UnitGO} - {unit.Status} - {unit.Turn}");
             }
         }
     }

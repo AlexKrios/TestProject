@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Parsers;
+using UnityEngine;
 
 namespace Customize
 {
@@ -10,6 +11,8 @@ namespace Customize
         public ParseUnitData parseUnitData;
         public ParseWeaponData parseWeaponData;
         public ParseArmorData parseArmorData;
+
+        public ParseBattleUnitData parseBattleUnitData;
 
         private void Start() { }
     }

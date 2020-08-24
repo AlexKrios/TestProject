@@ -1,5 +1,6 @@
 ﻿using System;
 using Units.Animations;
+using Units.Objects.BattleUnit;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,7 +11,7 @@ namespace Battle.Units.Turn
         private Manager Manager { get => Manager.Instance; }
         private UnitsQueue UnitsQueue { get => Manager.unitsQueue; }
 
-        private UnitStatus CurrentUnit { get => Manager.currentUnit; }
+        private BattleUnitObject CurrentUnit { get => Manager.currentUnit; }
 
         [NonSerialized] public UnityEvent OnStartExecute = new UnityEvent();
         [NonSerialized] public UnityEvent OnEndExecute = new UnityEvent();
@@ -29,15 +30,15 @@ namespace Battle.Units.Turn
             Manager.currentUnit = UnitsQueue.SetCurrentUnit();                              //Set new current unit
             Manager.targetUnit = null;                                                      //Reset target unit
 
-            CurrentUnit.gameObject.GetComponent<IUnitMarked>().MarkedTargetAndSelf();       //Marked all units
-            CurrentUnit.gameObject.GetComponent<IAnimTurnStart>().TurnStart();              //Start turnStart animation
+            CurrentUnit.UnitGO.GetComponent<IUnitMarked>().MarkedTargetAndSelf();           //Marked all units
+            CurrentUnit.UnitGO.GetComponent<IAnimTurnStart>().TurnStart();                  //Start turnStart animation
         }
 
         public void EndExecute()
         {
             Manager.RemoveBattleStatus("TurnStart");
 
-            CurrentUnit.gameObject.GetComponent<IEnemyTurn>().Execute();                    //If enemy turn, enemy move
+            CurrentUnit.UnitGO.GetComponent<IEnemyTurn>().Execute();                        //If enemy turn, enemy move
         }
     }
 }

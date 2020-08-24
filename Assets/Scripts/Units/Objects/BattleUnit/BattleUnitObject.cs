@@ -9,7 +9,7 @@ namespace Units.Objects.BattleUnit
     public class BattleUnitObject
     {
         public GameObject Parent;
-        public GameObject UnitGameObject;
+        public GameObject UnitGO;
 
         public GameObject Weapon;
         public GameObject Armor;
@@ -20,6 +20,7 @@ namespace Units.Objects.BattleUnit
         public string Status;
         public bool Turn;
 
+        public int Id;
         public string Team;
         public int Place;
 

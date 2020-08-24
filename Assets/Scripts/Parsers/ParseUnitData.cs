@@ -2,13 +2,16 @@
 using Units.Objects.Unit;
 using UnityEngine;
 
-public class ParseUnitData : MonoBehaviour
+namespace Parsers
 {
-    public List<UnitObject> Parse()
+    public class ParseUnitData : MonoBehaviour
     {
-        var textAsset = Resources.Load("Data/Units/UnitList") as TextAsset;
-        var bodyList = JsonUtility.FromJson<UnitList>(textAsset.text);
+        public List<UnitObject> Parse()
+        {
+            var textAsset = Resources.Load("Data/Units/UnitList") as TextAsset;
+            var bodyList = JsonUtility.FromJson<UnitList>(textAsset.text);
 
-        return bodyList.Units;
+            return bodyList.Units;
+        }
     }
 }

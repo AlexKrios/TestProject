@@ -1279,6 +1279,7 @@ GameObject:
   - component: {fileID: 845151018}
   - component: {fileID: 845151017}
   - component: {fileID: 845151016}
+  - component: {fileID: 845151019}
   m_Layer: 0
   m_Name: Parse
   m_TagString: Untagged
@@ -1334,6 +1335,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe4d6e3b9d867924bafda7eb23ca333f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &845151019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845151014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67416900320d81a48889142dacde7872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &925680664
@@ -1920,6 +1933,7 @@ MonoBehaviour:
   parseUnitData: {fileID: 845151018}
   parseWeaponData: {fileID: 845151017}
   parseArmorData: {fileID: 845151016}
+  parseBattleUnitData: {fileID: 845151019}
 --- !u!1 &1368629125
 GameObject:
   m_ObjectHideFlags: 0

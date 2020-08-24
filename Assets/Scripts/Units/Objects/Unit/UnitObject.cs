@@ -12,7 +12,7 @@ namespace Units.Objects.Unit
 
         public int Level;
         public int Expirence;
-        public int CurrentExpirence;
+        public int NeedExpirence;
 
         public int Hp;
         public int CurrentHp;

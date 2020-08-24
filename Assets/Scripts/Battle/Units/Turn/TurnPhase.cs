@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Units.Objects.BattleUnit;
 using UnityEngine;
 
 namespace Battle.Units.Turn
@@ -6,7 +7,7 @@ namespace Battle.Units.Turn
     public class TurnPhase : MonoBehaviour
     {
         private Manager Manager { get => Manager.Instance; }
-        public List<UnitStatus> UnitsList { get => Manager.unitsList; }
+        public List<BattleUnitObject> UnitsList { get => Manager.unitsList; }
 
         private void Start() { }
 

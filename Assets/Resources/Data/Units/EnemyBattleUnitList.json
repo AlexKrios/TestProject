@@ -1,0 +1,40 @@
+{
+  "BattleUnits": [
+    {
+      "Status": "Live",
+
+      "Id": 6,
+      "Team": "Enemy",
+      "Place": 1,
+
+      "Unit": {
+        "Type": "Hero",
+        "PathModel": "Characters/Hero/Unit",
+
+        "Level": 1,
+        "Expirence": 0,
+        "NeedExpirence": 100,
+
+        "Hp": 50,
+        "CurrentHp": 50,
+
+        "Attack": 10,
+        "AttackType": "Attack",
+
+        "Defence": 0,
+        "Initiative": 10,
+
+        "Weapon": {
+          "Level": 1,
+          "PathModel": "Characters/Hero/Weapon/Default/Weapon"
+        },
+        "Armor": {
+          "PathModel": "Characters/Hero/Weapon/Default/Weapon"
+        }
+      }
+    },
+    {
+      "Status": "Empty"
+    }
+  ]
+}

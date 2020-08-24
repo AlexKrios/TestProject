@@ -1,9 +1,10 @@
 ﻿using Battle.Create;
 using Battle.Load;
 using Battle.Save;
-using Battle.Units;
 using Battle.Units.Turn;
+using Parsers;
 using System.Collections.Generic;
+using Units.Objects.BattleUnit;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,9 +16,9 @@ namespace Battle
 
         public float speed = 1;                                             //Game speed
 
-        public List<UnitStatus> unitsList = null;                           //List of all unit objects and him property
-        public UnitStatus currentUnit = null;                               //Unit gameobject which turn
-        public UnitStatus targetUnit = null;                                //Unit gameobject whom attacked
+        public List<BattleUnitObject> unitsList = null;                     //List of all unit objects and him property
+        public BattleUnitObject currentUnit = null;                         //Unit gameobject which turn
+        public BattleUnitObject targetUnit = null;                          //Unit gameobject whom attacked
 
         public List<string> battleStatus = new List<string>();
 
@@ -46,12 +47,14 @@ namespace Battle
         [Header("UI")]      
         public UIManager uiManager;
 
+        public ParseBattleUnitData parseBattleUnitData;
+
         private void Start()
         {
             Instance = this;
 
-            var allArmy = armyCreate.CreateArmy(_group.allyTeam);
-            var enemyArmy = armyCreate.CreateArmy(_group.enemyTeam);
+            var allArmy = armyCreate.CreateArmy("Data/Units/AllyBattleUnitList");
+            var enemyArmy = armyCreate.CreateArmy("Data/Units/EnemyBattleUnitList");
 
             unitsList = unitsQueue.CreateQueue(allArmy, enemyArmy);
 

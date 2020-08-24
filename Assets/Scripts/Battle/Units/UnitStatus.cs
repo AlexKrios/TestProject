@@ -28,7 +28,7 @@ namespace Battle.Units
 
         public int level;
         public int expirence;
-        public int currentExpirence;
+        public int NeedExpirence;
 
         public int hp;
         public int currentHp;

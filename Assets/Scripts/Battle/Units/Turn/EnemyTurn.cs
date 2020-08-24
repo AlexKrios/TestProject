@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Units.Animations;
+using Units.Objects.BattleUnit;
 using UnityEngine;
 
 namespace Battle.Units.Turn
@@ -8,32 +9,32 @@ namespace Battle.Units.Turn
     public class EnemyTurn : MonoBehaviour, IEnemyTurn
     {
         private Manager Manager { get => Manager.Instance; }
-        public List<UnitStatus> UnitsList { get => Manager.unitsList; }
-        private UnitStatus CurrentUnit { get => Manager.currentUnit; }
+        public List<BattleUnitObject> UnitsList { get => Manager.unitsList; }
+        private BattleUnitObject CurrentUnit { get => Manager.currentUnit; }
 
         private void Start() { }
 
         public void Execute()
         {
-            //if (CurrentUnit.team != "Enemy")
-            //{
-            //    return;
-            //}
-
-            if (CurrentUnit.target.Count == 0)
+            if (CurrentUnit.Team != "Enemy")
             {
-                CurrentUnit.gameObject.GetComponent<IAnimTurnEnd>().TurnEnd();
+                return;
+            }
+
+            if (CurrentUnit.Target.Count == 0)
+            {
+                CurrentUnit.UnitGO.GetComponent<IAnimTurnEnd>().TurnEnd();
                 return;
             }            
 
             Manager.AddBattleStatus("UnitAttack");
 
-            var rIndex = Random.Range(0, CurrentUnit.target.Count);
-            var place = CurrentUnit.target[rIndex];
+            var rIndex = Random.Range(0, CurrentUnit.Target.Count);
+            var place = CurrentUnit.Target[rIndex];
 
-            Manager.targetUnit = UnitsList.First(x => x.place == place);
+            Manager.targetUnit = UnitsList.First(x => x.Id == place);
 
-            CurrentUnit.gameObject.GetComponent<IUnitAttack>().Attack();
+            CurrentUnit.UnitGO.GetComponent<IUnitAttack>().Attack();
         }
     }
 }

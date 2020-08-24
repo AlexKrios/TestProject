@@ -1,5 +1,5 @@
-﻿using Battle.Units;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Units.Objects.BattleUnit;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,16 +7,16 @@ public class UIManager : MonoBehaviour
 {
     void Start() { }
 
-    public void HpChange(UnitStatus unitStatus)
+    public void HpChange(BattleUnitObject unitStatus)
     {
-        var hpBar = unitStatus.gameObject.transform.Find("Canvas/HpBar").GetComponent<Image>();        
+        var hpBar = unitStatus.UnitGO.transform.Find("Canvas/HpBar").GetComponent<Image>();        
 
-        hpBar.fillAmount = (float)(100 / unitStatus.hp * unitStatus.currentHp) / 100;
+        hpBar.fillAmount = (float)(100 / unitStatus.Unit.Hp * unitStatus.Unit.CurrentHp) / 100;
     }
 
-    public void HpInit(List<UnitStatus> battleQueue)
+    public void HpInit(List<BattleUnitObject> battleQueue)
     {
-        foreach (UnitStatus unitStatus in battleQueue)
+        foreach (BattleUnitObject unitStatus in battleQueue)
         {
             HpChange(unitStatus);
         }

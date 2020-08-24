@@ -1,16 +1,15 @@
 ﻿using Battle;
-using Battle.Units;
-using Battle.Units.Turn;
 using Units.Animations;
+using Units.Objects.BattleUnit;
 using UnityEngine;
 
 public class ButtonHandlers : MonoBehaviour
 {
     private Manager Manager { get => Manager.Instance; }
-    private UnitStatus CurrentUnit { get => Manager.currentUnit; }
+    private BattleUnitObject CurrentUnit { get => Manager.currentUnit; }
 
     public void Execute()
     {
-        CurrentUnit.gameObject.GetComponent<IAnimTurnEnd>().TurnEnd();
+        CurrentUnit.UnitGO.GetComponent<IAnimTurnEnd>().TurnEnd();
     }
 }

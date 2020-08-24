@@ -1,7 +1,7 @@
 ﻿using Battle;
-using Battle.Units;
 using System;
 using System.Collections;
+using Units.Objects.BattleUnit;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,8 +10,8 @@ namespace Units.Animations
     public class UnitAnimation : MonoBehaviour, IAnimTurnStart, IAnimTurnEnd, IAnimAttack, IAnimHit
     {
         private Manager Manager { get => Manager.Instance; }
-        private UnitStatus CurrentUnit { get => Manager.currentUnit; }
-        private UnitStatus TargetUnit { get => Manager.targetUnit; }
+        private BattleUnitObject CurrentUnit { get => Manager.currentUnit; }
+        private BattleUnitObject TargetUnit { get => Manager.targetUnit; }
         [NonSerialized] public UnityEvent OnAttackTarget = new UnityEvent();
 
         private void Start()
@@ -41,7 +41,7 @@ namespace Units.Animations
         {
             var animator = gameObject.GetComponent<Animator>();          
 
-            if (TargetUnit.currentHp <= 0)
+            if (TargetUnit.Unit.CurrentHp <= 0)
             {
                 animator.SetBool("isDead", true);
                 return;
@@ -52,11 +52,11 @@ namespace Units.Animations
 
         private IEnumerator RotateToTarget()
         {
-            CurrentUnit.gameObject.GetComponent<IAnimAttack>().Attack();
+            CurrentUnit.UnitGO.GetComponent<IAnimAttack>().Attack();
 
             /* Object transform */
-            var currentUnitParent = CurrentUnit.parent.transform;
-            var targetUnitParent = TargetUnit.parent.transform;
+            var currentUnitParent = CurrentUnit.Parent.transform;
+            var targetUnitParent = TargetUnit.Parent.transform;
             /* Target rotation */
             var targetR = Quaternion.LookRotation(targetUnitParent.position - currentUnitParent.position);
 
@@ -73,9 +73,9 @@ namespace Units.Animations
         {
             Manager.RemoveBattleStatus("UnitAttack");
 
-            CurrentUnit.gameObject.GetComponent<IAnimTurnEnd>().TurnEnd();
+            CurrentUnit.UnitGO.GetComponent<IAnimTurnEnd>().TurnEnd();
 
-            var currentUnitParent = CurrentUnit.parent.transform;
+            var currentUnitParent = CurrentUnit.Parent.transform;
 
             for (float timer = 0f; timer < .5f; timer += Time.deltaTime)
             {

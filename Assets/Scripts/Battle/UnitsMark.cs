@@ -1,4 +1,4 @@
-﻿using Battle.Units;
+﻿using Units.Objects.BattleUnit;
 using UnityEngine;
 
 namespace Battle
@@ -6,13 +6,13 @@ namespace Battle
     public class UnitsMark : MonoBehaviour
     {
         private Manager Manager { get => Manager.Instance; }
-        public UnitStatus CurrentUnit { get => Manager.currentUnit; }
+        public BattleUnitObject CurrentUnit { get => Manager.currentUnit; }
 
         private void Start() { }
 
-        public void Create(UnitStatus currentUnit, string path = "test2")
+        public void Create(BattleUnitObject currentUnit, string path = "test2")
         {
-            GameObject go = currentUnit.parent;
+            GameObject go = currentUnit.Parent;
 
             GameObject turnMark = new GameObject("Circle");
             turnMark.transform.parent = go.transform;

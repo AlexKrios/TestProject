@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Units.Objects.BattleUnit;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +12,7 @@ namespace Battle.Units.Turn
         private Manager Manager { get => Manager.Instance; }
         private TurnStart TurnStart { get => Manager.turnStart; }
         private UnitsMark UnitsMark { get => Manager.unitsMark; }
-        private List<UnitStatus> UnitsList { get => Manager.unitsList; }
+        private List<BattleUnitObject> UnitsList { get => Manager.unitsList; }
 
         [NonSerialized] public UnityEvent OnStartExecute = new UnityEvent();
         [NonSerialized] public UnityEvent OnEndExecute = new UnityEvent();
@@ -42,8 +43,8 @@ namespace Battle.Units.Turn
 
         private bool EndBattle()
         {
-            var isLose = !UnitsList.Any(x => x.status == "Live" && x.team == "Ally");
-            var isWin = !UnitsList.Any(x => x.status == "Live" && x.team == "Enemy");
+            var isLose = !UnitsList.Any(x => x.Status == "Live" && x.Team == "Ally");
+            var isWin = !UnitsList.Any(x => x.Status == "Live" && x.Team == "Enemy");
 
             return isLose || isWin;
         }

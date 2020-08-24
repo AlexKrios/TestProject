@@ -2229,6 +2229,7 @@ GameObject:
   - component: {fileID: 1258782070}
   - component: {fileID: 1258782073}
   - component: {fileID: 1258782072}
+  - component: {fileID: 1258782069}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -2272,6 +2273,7 @@ MonoBehaviour:
   turnStart: {fileID: 1258782073}
   turnEnd: {fileID: 1258782072}
   uiManager: {fileID: 1258782070}
+  parseBattleUnitData: {fileID: 1258782069}
 --- !u!114 &1258782064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2330,6 +2332,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d569e2efc0fb9d459b914b4421a534e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1258782069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258782061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67416900320d81a48889142dacde7872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1258782070

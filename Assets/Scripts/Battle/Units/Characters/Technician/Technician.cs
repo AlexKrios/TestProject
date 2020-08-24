@@ -7,20 +7,20 @@ namespace Battle.Units.Characters.Technician
     {
         public override void Damage()
         {
-            TargetUnit.currentHp += attack / CurrentUnit.aimCount;
+            TargetUnit.Unit.CurrentHp += attack / CurrentUnit.AimCount;
             Manager.uiManager.HpChange(TargetUnit);
 
-            if (TargetUnit.currentHp > TargetUnit.hp)
+            if (TargetUnit.Unit.CurrentHp > TargetUnit.Unit.Hp)
             {
-                TargetUnit.currentHp = TargetUnit.hp;
+                TargetUnit.Unit.CurrentHp = TargetUnit.Unit.Hp;
             }
         }
 
         public override List<int> UnitTarget(string team)
         {
             var target = UnitsList
-                .Where(x => x.status == "Live" && x.team == team && x.currentHp < x.hp)
-                .Select(x => x.place)
+                .Where(x => x.Status == "Live" && x.Team == team && x.Unit.CurrentHp < x.Unit.Hp)
+                .Select(x => x.Id)
                 .ToList();
 
             return target;
@@ -32,9 +32,9 @@ namespace Battle.Units.Characters.Technician
             var targetPath = "Battle/Marks/AllyMark";
 
             UnitsMark.Create(CurrentUnit, currentPath);
-            foreach (int index in CurrentUnit.target)
+            foreach (int index in CurrentUnit.Target)
             {
-                var targetUnit = UnitsList.First(x => x.place == index);
+                var targetUnit = UnitsList.First(x => x.Place == index);
                 UnitsMark.Create(targetUnit, targetPath);
             }
         }

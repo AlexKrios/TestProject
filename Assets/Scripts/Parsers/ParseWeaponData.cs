@@ -2,13 +2,16 @@
 using Units.Objects.Weapon;
 using UnityEngine;
 
-public class ParseWeaponData : MonoBehaviour
+namespace Parsers
 {
-    public List<WeaponObject> Parse()
+    public class ParseWeaponData : MonoBehaviour
     {
-        var textAsset = Resources.Load<TextAsset>("Data/Units/Hero/Weapon") as TextAsset;
-        var weaponList = JsonUtility.FromJson<WeaponList>(textAsset.text);
+        public List<WeaponObject> Parse()
+        {
+            var textAsset = Resources.Load<TextAsset>("Data/Units/Hero/Weapon") as TextAsset;
+            var weaponList = JsonUtility.FromJson<WeaponList>(textAsset.text);
 
-        return weaponList.Weapons; 
+            return weaponList.Weapons;
+        }
     }
 }

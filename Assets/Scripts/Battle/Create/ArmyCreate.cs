@@ -1,84 +1,69 @@
-﻿using Battle.Units;
-using Battle.Units.Characters;
+﻿using Battle.Units.Characters;
 using Battle.Units.Turn;
+using Parsers;
 using System.Collections.Generic;
+using Units.Objects.BattleUnit;
 using UnityEngine;
 
 namespace Battle.Create 
-{
+{    
     public class ArmyCreate : MonoBehaviour
     {
-        private int _allCount = 0;
+        private Manager Manager { get => Manager.Instance; }
+        private ParseBattleUnitData ParseBattleUnitData { get => Manager.parseBattleUnitData; }
 
         private void Start() { }
 
-        public List<UnitStatus> CreateArmy(List<UnitTeamData> group)
+        public List<BattleUnitObject> CreateArmy(string dataPath)
         {
-            var army = new List<UnitStatus>();
+            var parsedArmyData = ParseBattleUnitData.Parse(dataPath);
+            var army = new List<BattleUnitObject>();
 
-            foreach (UnitTeamData member in group)
+            foreach (BattleUnitObject data in parsedArmyData)
             {
-                if (member.type == "Empty")
+                if (data.Status == "Empty")
                 {
                     continue;
                 }
 
-                string path = $"Characters/{member.type}/Unit";
+                data.UnitGO = Instantiate(Resources.Load(data.Unit.PathModel, typeof(GameObject)) as GameObject);
 
-                UnitStatus unit = new UnitStatus();
-                unit.gameObject = Instantiate(Resources.Load(path, typeof(GameObject)) as GameObject);
-                var unitClass = unit.gameObject.GetComponent<Unit>();
+                data.Parent = GameObject.Find($"{data.Team}{data.Place}");
+                data.UnitGO.transform.parent = data.Parent.transform;
+                data.UnitGO.transform.localPosition = new Vector3(0, 0, 0);
+                data.UnitGO.tag = data.Team;
 
-                unit.name = unitClass.type;
-                unit.parent = GameObject.Find($"{member.team}{member.place}");
-                unit.gameObject.transform.parent = unit.parent.transform;
-                unit.gameObject.transform.localPosition = new Vector3(0, 0, 0);
-                unit.gameObject.tag = member.team;
+                data.Armor = data.UnitGO.transform.Find("Armor").gameObject;
+                data.Weapon = data.UnitGO.transform.Find("Weapon").gameObject;
+                data.Face = data.UnitGO.transform.Find("Face").gameObject;
 
-                unit.armor = unit.gameObject.transform.Find("Armor").gameObject;
-                unit.weapon = unit.gameObject.transform.Find("Weapon").gameObject;
-                unit.face = unit.gameObject.transform.Find("Face").gameObject;
+                data.UnitGO.AddComponent<Damagable>();
+                data.UnitGO.AddComponent<EnemyTurn>();
 
-                unit.gameObject.AddComponent<Damagable>();
-                unit.gameObject.AddComponent<EnemyTurn>();
+                CreateWeapon(data);
+                CreateArmor(data);
 
-                CreateWeapon(unit);
-                CreateArmor(unit);
-
-                /* Export stats */
-                unit.status = "Live";
-                unit.turn = true;
-                unit.team = member.team;
-                unit.place = _allCount;
-                unit.hp = unitClass.hp;
-                unit.currentHp = unitClass.hp;
-                unit.attack = unitClass.attack;
-                unit.attackType = unitClass.attackType;
-                unit.defence = unitClass.defence;
-                unit.initiative = unitClass.initiative;
-
-                army.Add(unit);
-                _allCount++;
+                army.Add(data);
             }
 
             return army;
         }
 
-        private void CreateWeapon(UnitStatus unit)
+        private void CreateWeapon(BattleUnitObject data)
         {
             string pathWeapon = $"Characters/Hero/Weapon/Default/Weapon";
 
             var weaponModel = Instantiate(Resources.Load(pathWeapon, typeof(GameObject)) as GameObject);
             weaponModel.name = "Model";
-            weaponModel.transform.parent = unit.weapon.transform;
+            weaponModel.transform.parent = data.Weapon.transform;
             weaponModel.transform.localPosition = new Vector3(0, 0, 0);
             weaponModel.transform.localRotation = Quaternion.Euler(0, 0, 0);
             weaponModel.transform.localScale = new Vector3(1, 1, 1);
 
-            unit.aimCount = weaponModel.GetComponent<WeaponAbstract>().aimCount;
+            data.AimCount = weaponModel.GetComponent<WeaponAbstract>().aimCount;
         }
 
-        private void CreateArmor(UnitStatus unit)
+        private void CreateArmor(BattleUnitObject data)
         {
 
         }
